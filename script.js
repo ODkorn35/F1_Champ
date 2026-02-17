@@ -177,7 +177,7 @@ addDuplicateBlocking("raceContainer");
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDTfQoKDjg-bVoi99ASDJA1DSqKIpdlGmW1ecyldbjDIpfZPZRFMdoQkkkCdQlePwU/exec";
 
 document.getElementById("predictionForm")
-.addEventListener("submit", async function(e){
+.addEventListener("submit", function(e){
 
   e.preventDefault();
 
@@ -197,35 +197,29 @@ document.getElementById("predictionForm")
     raceSelections.push(document.querySelector(`select[name="R${i}"]`).value);
   }
 
-  const formData = new URLSearchParams();
-  formData.append("nickname", nickname);
-  formData.append("stage", stage);
-  formData.append("qualifying", JSON.stringify(qualiSelections));
-  formData.append("race", JSON.stringify(raceSelections));
+  // создаём временную форму
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = SCRIPT_URL;
+  form.target = "hidden_iframe";
 
-  try {
+  const addField = (name, value) => {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  };
 
-    const response = await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: formData
-    });
+  addField("nickname", nickname);
+  addField("stage", stage);
+  addField("qualifying", JSON.stringify(qualiSelections));
+  addField("race", JSON.stringify(raceSelections));
 
-    const result = await response.text();
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
 
-    if(result === "SUCCESS"){
-      alert("Прогноз успешно отправлен");
-      document.getElementById("predictionForm").reset();
-    }
-    else if(result === "ERROR_ALREADY_SENT"){
-      alert("Вы уже отправляли прогноз на этот этап");
-    }
-    else{
-      alert("Ошибка: " + result);
-    }
-
-  } catch(error){
-    console.error(error);
-    alert("Ошибка соединения");
-  }
+  alert("Прогноз отправлен");
 
 });
