@@ -252,8 +252,26 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.removeChild(tempForm);
 
     showToast("Прогноз успешно отправлен");
-    form.reset();
+    // Очистка никнейма
+document.getElementById("nickname").value = "";
+
+// Очистка этапа
+document.getElementById("stageSelect").value = "";
+
+// Очистка квалификации
+for (let i = 1; i <= 5; i++) {
+  const select = document.querySelector(`select[name="Q${i}"]`);
+  if (select) select.value = "";
+}
+
+// Очистка гонки
+for (let i = 1; i <= 10; i++) {
+  const select = document.querySelector(`select[name="R${i}"]`);
+  if (select) select.value = "";
+}
+
   });
 
 });
+
 
