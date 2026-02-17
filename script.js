@@ -1,6 +1,6 @@
-// ===============================
+// =====================================================
 // МОСКОВСКОЕ ВРЕМЯ (UTC+3)
-// ===============================
+// =====================================================
 
 function getMoscowDate() {
   const now = new Date();
@@ -8,9 +8,9 @@ function getMoscowDate() {
   return new Date(utc + (3 * 60 * 60 * 1000));
 }
 
-// ===============================
+// =====================================================
 // КАЛЕНДАРЬ 2026
-// ===============================
+// =====================================================
 
 const calendar = [
 { name:"1. Австралия", start:"03-08", startTime:"15:00", showFrom:"03-02", showUntil:"03-08" },
@@ -39,9 +39,9 @@ const calendar = [
 { name:"24. Абу-Даби", start:"12-06", startTime:"17:00", showFrom:"11-30", showUntil:"12-06" }
 ];
 
-// ===============================
-// СПИСОК ПИЛОТОВ (РУССКИЙ)
-// ===============================
+// =====================================================
+// ПИЛОТЫ (РУССКИЙ)
+// =====================================================
 
 const drivers = [
 "Ферстаппен",
@@ -66,12 +66,11 @@ const drivers = [
 "Сарджент"
 ];
 
-// ===============================
+// =====================================================
 // ЗАПОЛНЕНИЕ ЭТАПОВ
-// ===============================
+// =====================================================
 
 const stageSelect = document.getElementById("stageSelect");
-
 calendar.forEach(stage => {
   const option = document.createElement("option");
   option.value = stage.name;
@@ -79,83 +78,9 @@ calendar.forEach(stage => {
   stageSelect.appendChild(option);
 });
 
-// ===============================
-// ИНФОБЛОК
-// ===============================
-
-function updateInfoBlock() {
-
-  const now = getMoscowDate();
-  const todayStr = `${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-
-  const current = calendar.find(stage =>
-    todayStr >= stage.showFrom && todayStr <= stage.showUntil
-  );
-
-  const infoBlock = document.getElementById("infoBlock");
-
-  if (current) {
-    infoBlock.textContent = `Ближайший этап: ${current.name} (${current.start}.2026)`;
-  } else {
-    infoBlock.textContent = "Межсезонье";
-  }
-
-}
-
-updateInfoBlock();
-
-// ===============================
-// ТАЙМЕР
-// ===============================
-
-function buildRaceDateTime(stage) {
-  return new Date(`2026-${stage.start}T${stage.startTime}:00+03:00`);
-}
-
-function getNextRace() {
-  const now = getMoscowDate();
-  return calendar.find(stage => now < buildRaceDateTime(stage));
-}
-
-function updateCountdown() {
-
-  const nextRace = getNextRace();
-  const title = document.getElementById("countdownTitle");
-
-  if (!nextRace) {
-    title.textContent = "Сезон завершен";
-    setZero();
-    return;
-  }
-
-  title.textContent = `До старта ${nextRace.name}`;
-
-  const diff = buildRaceDateTime(nextRace) - getMoscowDate();
-
-  const days = Math.floor(diff / (1000*60*60*24));
-  const hours = Math.floor((diff/(1000*60*60))%24);
-  const minutes = Math.floor((diff/(1000*60))%60);
-  const seconds = Math.floor((diff/1000)%60);
-
-  document.getElementById("days").textContent = days;
-  document.getElementById("hours").textContent = hours;
-  document.getElementById("minutes").textContent = minutes;
-  document.getElementById("seconds").textContent = seconds;
-}
-
-function setZero(){
-  document.getElementById("days").textContent = 0;
-  document.getElementById("hours").textContent = 0;
-  document.getElementById("minutes").textContent = 0;
-  document.getElementById("seconds").textContent = 0;
-}
-
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
-// ===============================
-// ГЕНЕРАЦИЯ SELECT (ОДИН СТОЛБЕЦ)
-// ===============================
+// =====================================================
+// ГЕНЕРАЦИЯ SELECT
+// =====================================================
 
 function createSelect(name, index) {
 
@@ -186,25 +111,68 @@ function createSelect(name, index) {
 }
 
 function generatePredictionFields() {
-
   const quali = document.getElementById("qualifyingContainer");
   const race = document.getElementById("raceContainer");
 
   for(let i=1; i<=5; i++){
     quali.appendChild(createSelect("Q", i));
   }
-
   for(let i=1; i<=10; i++){
     race.appendChild(createSelect("R", i));
   }
-
 }
 
 generatePredictionFields();
 
-// ===============================
+// =====================================================
+// БЛОКИРОВКА ДУБЛЕЙ
+// =====================================================
+
+function addDuplicateBlocking(containerId) {
+
+  const container = document.getElementById(containerId);
+  const selects = container.querySelectorAll("select");
+
+  selects.forEach(select => {
+
+    select.addEventListener("change", () => {
+
+      const selectedValues = Array.from(selects)
+        .map(s => s.value)
+        .filter(v => v !== "");
+
+      selects.forEach(s => {
+
+        const currentValue = s.value;
+
+        Array.from(s.options).forEach(option => {
+
+          if(option.value === "") return;
+
+          if(
+            selectedValues.includes(option.value) &&
+            option.value !== currentValue
+          ){
+            option.disabled = true;
+          } else {
+            option.disabled = false;
+          }
+
+        });
+
+      });
+
+    });
+
+  });
+}
+
+addDuplicateBlocking("qualifyingContainer");
+addDuplicateBlocking("raceContainer");
+
+// =====================================================
 // ОТПРАВКА В GOOGLE SHEETS
-// ===============================
+// =====================================================
 
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDTfQoKDjg-bVoi99ASDJA1DSqKIpdlGmW1ecyldbjDIpfZPZRFMdoQkkkCdQlePwU/exec";
 
@@ -244,16 +212,6 @@ document.getElementById("predictionForm")
     raceSelections.push(value);
   }
 
-  if(new Set(qualiSelections).size !== qualiSelections.length){
-    alert("В квалификации есть повторяющиеся пилоты");
-    return;
-  }
-
-  if(new Set(raceSelections).size !== raceSelections.length){
-    alert("В гонке есть повторяющиеся пилоты");
-    return;
-  }
-
   const payload = {
     nickname,
     stage,
@@ -263,19 +221,15 @@ document.getElementById("predictionForm")
 
   try {
 
-    const response = await fetch(SCRIPT_URL, {
+    await fetch(SCRIPT_URL, {
       method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
-    const result = await response.text();
-
-    if(result === "SUCCESS"){
-      alert("Прогноз отправлен");
-      document.getElementById("predictionForm").reset();
-    } else {
-      alert("Ошибка отправки");
-    }
+    alert("Прогноз отправлен");
+    document.getElementById("predictionForm").reset();
 
   } catch(error){
     alert("Ошибка соединения");
@@ -283,46 +237,4 @@ document.getElementById("predictionForm")
 
 });
 
-function addDuplicateBlocking(containerId) {
 
-  const container = document.getElementById(containerId);
-  const selects = container.querySelectorAll("select");
-
-  selects.forEach(select => {
-
-    select.addEventListener("change", () => {
-
-      const selectedValues = Array.from(selects)
-        .map(s => s.value)
-        .filter(v => v !== "");
-
-      selects.forEach(s => {
-
-        const currentValue = s.value;
-
-        Array.from(s.options).forEach(option => {
-
-          if(option.value === "") return;
-
-          if(
-            selectedValues.includes(option.value) &&
-            option.value !== currentValue
-          ){
-            option.disabled = true;
-          } else {
-            option.disabled = false;
-          }
-
-        });
-
-      });
-
-    });
-
-  });
-
-}
-
-// Активируем для обоих блоков
-addDuplicateBlocking("qualifyingContainer");
-addDuplicateBlocking("raceContainer");
