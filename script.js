@@ -170,56 +170,90 @@ function addDuplicateBlocking(containerId) {
 addDuplicateBlocking("qualifyingContainer");
 addDuplicateBlocking("raceContainer");
 
-// =====================================================
-// ОТПРАВКА В GOOGLE SHEETS
-// =====================================================
-
+// ===============================
+// URL GOOGLE SCRIPT
+// ===============================
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDTfQoKDjg-bVoi99ASDJA1DSqKIpdlGmW1ecyldbjDIpfZPZRFMdoQkkkCdQlePwU/exec";
 
-document.getElementById("predictionForm")
-.addEventListener("submit", function(e){
+// ===============================
+// TOAST
+// ===============================
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
 
-  e.preventDefault();
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
 
-  const nickname = document.getElementById("nickname")
-    .value.trim().toLowerCase();
+// ===============================
+// ОТПРАВКА ФОРМЫ
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
 
-  const stage = document.getElementById("stageSelect").value;
+  const form = document.getElementById("predictionForm");
 
-  const qualiSelections = [];
-  const raceSelections = [];
+  if (!form) return;
 
-  for(let i=1; i<=5; i++){
-    qualiSelections.push(document.querySelector(`select[name="Q${i}"]`).value);
-  }
+  form.addEventListener("submit", function (e) {
 
-  for(let i=1; i<=10; i++){
-    raceSelections.push(document.querySelector(`select[name="R${i}"]`).value);
-  }
+    e.preventDefault();
 
-  // создаём временную форму
-  const form = document.createElement("form");
-  form.method = "POST";
-  form.action = SCRIPT_URL;
-  form.target = "hidden_iframe";
+    const nicknameInput = document.getElementById("nickname");
+    const nickname = nicknameInput.value.trim().toLowerCase();
+    nicknameInput.value = nickname;
 
-  const addField = (name, value) => {
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = name;
-    input.value = value;
-    form.appendChild(input);
-  };
+    const stage = document.getElementById("stageSelect").value;
 
-  addField("nickname", nickname);
-  addField("stage", stage);
-  addField("qualifying", JSON.stringify(qualiSelections));
-  addField("race", JSON.stringify(raceSelections));
+    if (!nickname || !stage) {
+      showToast("Заполните все обязательные поля");
+      return;
+    }
 
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
+    const formData = new FormData();
 
-  alert("Прогноз отправлен");
+    formData.append("nickname", nickname);
+    formData.append("stage", stage);
+
+    // Квалификация (5)
+    for (let i = 1; i <= 5; i++) {
+      const select = document.querySelector(`select[name="Q${i}"]`);
+      if (select) {
+        formData.append(`квала_${i}`, select.value);
+      }
+    }
+
+    // Гонка (10)
+    for (let i = 1; i <= 10; i++) {
+      const select = document.querySelector(`select[name="R${i}"]`);
+      if (select) {
+        formData.append(`гонка_${i}`, select.value);
+      }
+    }
+
+    // Создаем временную форму для iframe
+    const tempForm = document.createElement("form");
+    tempForm.method = "POST";
+    tempForm.action = SCRIPT_URL;
+    tempForm.target = "hidden_iframe";
+
+    for (let pair of formData.entries()) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = pair[0];
+      input.value = pair[1];
+      tempForm.appendChild(input);
+    }
+
+    document.body.appendChild(tempForm);
+    tempForm.submit();
+    document.body.removeChild(tempForm);
+
+    showToast("Прогноз успешно отправлен");
+    form.reset();
+  });
 
 });
+
