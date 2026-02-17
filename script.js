@@ -197,32 +197,30 @@ document.getElementById("predictionForm")
     raceSelections.push(document.querySelector(`select[name="R${i}"]`).value);
   }
 
-  const payload = {
-    nickname,
-    stage,
-    qualifying: qualiSelections,
-    race: raceSelections
-  };
+  const formData = new URLSearchParams();
+  formData.append("nickname", nickname);
+  formData.append("stage", stage);
+  formData.append("qualifying", JSON.stringify(qualiSelections));
+  formData.append("race", JSON.stringify(raceSelections));
 
   try {
 
     const response = await fetch(SCRIPT_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: formData
     });
 
-    const result = await response.json();
+    const result = await response.text();
 
-    if(result.status === "success"){
+    if(result === "SUCCESS"){
       alert("Прогноз успешно отправлен");
       document.getElementById("predictionForm").reset();
     }
-    else if(result.message === "ALREADY_SENT"){
+    else if(result === "ERROR_ALREADY_SENT"){
       alert("Вы уже отправляли прогноз на этот этап");
     }
     else{
-      alert("Ошибка: " + result.message);
+      alert("Ошибка: " + result);
     }
 
   } catch(error){
@@ -231,7 +229,3 @@ document.getElementById("predictionForm")
   }
 
 });
-
-
-
-
