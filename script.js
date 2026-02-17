@@ -186,30 +186,15 @@ document.getElementById("predictionForm")
 
   const stage = document.getElementById("stageSelect").value;
 
-  if(!nickname){
-    alert("Введите никнейм");
-    return;
-  }
-
   const qualiSelections = [];
   const raceSelections = [];
 
   for(let i=1; i<=5; i++){
-    const value = document.querySelector(`select[name="Q${i}"]`).value;
-    if(!value){
-      alert("Заполните всю квалификацию");
-      return;
-    }
-    qualiSelections.push(value);
+    qualiSelections.push(document.querySelector(`select[name="Q${i}"]`).value);
   }
 
   for(let i=1; i<=10; i++){
-    const value = document.querySelector(`select[name="R${i}"]`).value;
-    if(!value){
-      alert("Заполните всю гонку");
-      return;
-    }
-    raceSelections.push(value);
+    raceSelections.push(document.querySelector(`select[name="R${i}"]`).value);
   }
 
   const payload = {
@@ -221,20 +206,32 @@ document.getElementById("predictionForm")
 
   try {
 
-    await fetch(SCRIPT_URL, {
+    const response = await fetch(SCRIPT_URL, {
       method: "POST",
-      mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
-    alert("Прогноз отправлен");
-    document.getElementById("predictionForm").reset();
+    const result = await response.json();
+
+    if(result.status === "success"){
+      alert("Прогноз успешно отправлен");
+      document.getElementById("predictionForm").reset();
+    }
+    else if(result.message === "ALREADY_SENT"){
+      alert("Вы уже отправляли прогноз на этот этап");
+    }
+    else{
+      alert("Ошибка: " + result.message);
+    }
 
   } catch(error){
+    console.error(error);
     alert("Ошибка соединения");
   }
 
 });
+
+
 
 
