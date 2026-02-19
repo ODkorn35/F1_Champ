@@ -379,7 +379,17 @@ if (!isAdminPage) {
 
     showToast("Прогноз успешно отправлен");
     // Очистка никнейма
-document.getElementById("nickname").value = "";
+const isAdminPage = document.body.classList.contains("admin-page");
+
+if (isAdminPage) {
+  document.getElementById("nickname").value = "admin";
+}
+
+
+if (!isAdminPage) {
+  document.getElementById("nickname").value = "";
+}
+
 
 // Очистка этапа
 document.getElementById("stageSelect").value = "";
