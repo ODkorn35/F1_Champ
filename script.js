@@ -338,6 +338,7 @@ if (!isAdminPage) {
   }
 }
 
+
     const formData = new FormData();
 
     formData.append("nickname", nickname);
@@ -384,6 +385,7 @@ const isAdminPage = document.body.classList.contains("admin-page");
 if (isAdminPage) {
   document.getElementById("nickname").value = "admin";
 }
+
 
 
 // Очистка этапа
