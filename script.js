@@ -78,6 +78,81 @@ calendar.forEach(stage => {
   stageSelect.appendChild(option);
 });
 
+// ===============================
+// ИНФОБЛОК
+// ===============================
+
+function updateInfoBlock() {
+
+  const now = getMoscowDate();
+  const todayStr = `${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+
+  const current = calendar.find(stage =>
+    todayStr >= stage.showFrom && todayStr <= stage.showUntil
+  );
+
+  const infoBlock = document.getElementById("infoBlock");
+
+  if (current) {
+    infoBlock.textContent = `Ближайший этап: ${current.name} (${current.start}.2026)`;
+  } else {
+    infoBlock.textContent = "Межсезонье";
+  }
+
+}
+
+updateInfoBlock();
+
+// ===============================
+// ТАЙМЕР
+// ===============================
+
+function buildRaceDateTime(stage) {
+  return new Date(`2026-${stage.start}T${stage.startTime}:00+03:00`);
+}
+
+function getNextRace() {
+  const now = getMoscowDate();
+  return calendar.find(stage => now < buildRaceDateTime(stage));
+}
+
+function updateCountdown() {
+
+  const nextRace = getNextRace();
+  const title = document.getElementById("countdownTitle");
+
+  if (!nextRace) {
+    title.textContent = "Сезон завершен";
+    setZero();
+    return;
+  }
+
+  title.textContent = `До старта ${nextRace.name}`;
+
+  const diff = buildRaceDateTime(nextRace) - getMoscowDate();
+
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff/(1000*60*60))%24);
+  const minutes = Math.floor((diff/(1000*60))%60);
+  const seconds = Math.floor((diff/1000)%60);
+
+  document.getElementById("days").textContent = days;
+  document.getElementById("hours").textContent = hours;
+  document.getElementById("minutes").textContent = minutes;
+  document.getElementById("seconds").textContent = seconds;
+}
+
+function setZero(){
+  document.getElementById("days").textContent = 0;
+  document.getElementById("hours").textContent = 0;
+  document.getElementById("minutes").textContent = 0;
+  document.getElementById("seconds").textContent = 0;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+
 // =====================================================
 // ГЕНЕРАЦИЯ SELECT
 // =====================================================
@@ -252,8 +327,27 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.removeChild(tempForm);
 
     showToast("Прогноз успешно отправлен");
-    form.reset();
+    // Очистка никнейма
+document.getElementById("nickname").value = "";
+
+// Очистка этапа
+document.getElementById("stageSelect").value = "";
+
+// Очистка квалификации
+for (let i = 1; i <= 5; i++) {
+  const select = document.querySelector(`select[name="Q${i}"]`);
+  if (select) select.value = "";
+}
+
+// Очистка гонки
+for (let i = 1; i <= 10; i++) {
+  const select = document.querySelector(`select[name="R${i}"]`);
+  if (select) select.value = "";
+}
+
   });
 
 });
+
+
 
