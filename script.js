@@ -276,9 +276,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     e.preventDefault();
 
-    const nicknameInput = document.getElementById("nickname");
-    const nickname = nicknameInput.value.trim().toLowerCase();
-    nicknameInput.value = nickname;
+    const nickname = document.getElementById("nickname").value;
+
 
     const stage = document.getElementById("stageSelect").value;
 
@@ -348,6 +347,7 @@ for (let i = 1; i <= 10; i++) {
   });
 
 });
+
 
 
 
