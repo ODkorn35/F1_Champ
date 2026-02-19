@@ -118,8 +118,10 @@ function getNextRace() {
 
 function updateCountdown() {
 
-  const nextRace = getNextRace();
   const title = document.getElementById("countdownTitle");
+  if (!title) return;
+
+  const nextRace = getNextRace();
 
   if (!nextRace) {
     title.textContent = "Сезон завершен";
@@ -136,11 +138,17 @@ function updateCountdown() {
   const minutes = Math.floor((diff/(1000*60))%60);
   const seconds = Math.floor((diff/1000)%60);
 
-  document.getElementById("days").textContent = days;
-  document.getElementById("hours").textContent = hours;
-  document.getElementById("minutes").textContent = minutes;
-  document.getElementById("seconds").textContent = seconds;
+  const d = document.getElementById("days");
+  const h = document.getElementById("hours");
+  const m = document.getElementById("minutes");
+  const s = document.getElementById("seconds");
+
+  if (d) d.textContent = days;
+  if (h) h.textContent = hours;
+  if (m) m.textContent = minutes;
+  if (s) s.textContent = seconds;
 }
+
 
 function setZero(){
   document.getElementById("days").textContent = 0;
@@ -186,16 +194,36 @@ function createSelect(name, index) {
 }
 
 function generatePredictionFields() {
+
   const quali = document.getElementById("qualifyingContainer");
   const race = document.getElementById("raceContainer");
 
+  if (!quali || !race) return;
+
+  // Заголовок квалификации
+  const qualiTitle = document.createElement("h3");
+  qualiTitle.textContent = "Квалификация";
+  qualiTitle.style.marginTop = "20px";
+  quali.appendChild(qualiTitle);
+
+  // 5 мест квалификации
   for(let i=1; i<=5; i++){
     quali.appendChild(createSelect("Q", i));
   }
+
+  // Заголовок гонки
+  const raceTitle = document.createElement("h3");
+  raceTitle.textContent = "Гонка";
+  raceTitle.style.marginTop = "25px";
+  race.appendChild(raceTitle);
+
+  // 10 мест гонки
   for(let i=1; i<=10; i++){
     race.appendChild(createSelect("R", i));
   }
+
 }
+
 
 generatePredictionFields();
 
