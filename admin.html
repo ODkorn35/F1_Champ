@@ -5,28 +5,30 @@
   <title>F1 Admin</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="admin-page">
-<a href="index.html" class="home-btn">
-  ⌂
-</a>
-
+<body>
 
 <script>
+// Проверка авторизации
 if (sessionStorage.getItem("adminAuth") !== "true") {
   window.location.href = "index.html";
 }
 </script>
 
+<!-- Та же форма что и на главной -->
 <div class="form-wrapper">
 
   <form id="predictionForm">
 
     <!-- Этап -->
-    <select id="stageSelect" required></select>
+    <select id="stageSelect" required>
+      <!-- этапы генерируются скриптом -->
+    </select>
 
-    <!-- ВАЖНО: те же ID что на главной -->
-    <div id="qualifyingContainer"></div>
-    <div id="raceContainer"></div>
+    <!-- Квалификация -->
+    <div id="qualifying-container"></div>
+
+    <!-- Гонка -->
+    <div id="race-container"></div>
 
     <button type="submit">Отправить</button>
 
@@ -40,13 +42,18 @@ if (sessionStorage.getItem("adminAuth") !== "true") {
 <script src="script.js"></script>
 
 <script>
-// Добавляем скрытый ник admin
+// В admin версии убираем никнейм и фиксируем его как admin
+
 document.addEventListener("DOMContentLoaded", () => {
+
+  // создаём скрытый никнейм
   const hiddenNick = document.createElement("input");
   hiddenNick.type = "hidden";
   hiddenNick.id = "nickname";
   hiddenNick.value = "admin";
+
   document.getElementById("predictionForm").appendChild(hiddenNick);
+
 });
 </script>
 
