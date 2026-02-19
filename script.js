@@ -386,11 +386,6 @@ if (isAdminPage) {
 }
 
 
-if (!isAdminPage) {
-  document.getElementById("nickname").value = "";
-}
-
-
 // Очистка этапа
 document.getElementById("stageSelect").value = "";
 
