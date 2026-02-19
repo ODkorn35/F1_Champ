@@ -1,0 +1,145 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 15px;
+}
+
+#infoBlock {
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input, select, button {
+  padding: 10px;
+  font-size: 14px;
+}
+
+button {
+  cursor: pointer;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* ===== Таймер ===== */
+
+#countdownWrapper {
+  margin-bottom: 20px;
+}
+
+#countdownTitle {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#countdownTimer {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.timeBox {
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  min-width: 65px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.timeBox span {
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+}
+
+.timeBox small {
+  font-size: 11px;
+  color: #555;
+}
+
+/* ===== Мобильная версия ===== */
+
+@media (max-width: 600px) {
+
+  .container {
+    width: 90%;
+  }
+
+  .timeBox {
+    min-width: 55px;
+    padding: 8px;
+  }
+
+  .timeBox span {
+    font-size: 16px;
+  }
+
+}
+
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 20px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+.admin-btn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  padding: 6px 12px;
+  font-size: 12px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.admin-btn:hover {
+  opacity: 0.8;
+}
