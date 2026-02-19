@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>F1 Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<script>
+if (sessionStorage.getItem("adminAuth") !== "true") {
+  window.location.href = "index.html";
+}
+</script>
+
+<div class="form-wrapper">
+
+  <form id="predictionForm">
+
+    <!-- Этап -->
+    <select id="stageSelect" required></select>
+
+    <!-- ВАЖНО: те же ID что на главной -->
+    <div id="qualifyingContainer"></div>
+    <div id="raceContainer"></div>
+
+    <button type="submit">Отправить</button>
+
+  </form>
+
+</div>
+
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+<div id="toast" class="toast"></div>
+
+<script src="script.js"></script>
+
+<script>
+// Добавляем скрытый ник admin
+document.addEventListener("DOMContentLoaded", () => {
+  const hiddenNick = document.createElement("input");
+  hiddenNick.type = "hidden";
+  hiddenNick.id = "nickname";
+  hiddenNick.value = "admin";
+  document.getElementById("predictionForm").appendChild(hiddenNick);
+});
+</script>
+
+</body>
+</html>

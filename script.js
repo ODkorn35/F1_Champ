@@ -70,13 +70,21 @@ const drivers = [
 // ЗАПОЛНЕНИЕ ЭТАПОВ
 // =====================================================
 
-const stageSelect = document.getElementById("stageSelect");
-calendar.forEach(stage => {
-  const option = document.createElement("option");
-  option.value = stage.name;
-  option.textContent = stage.name;
-  stageSelect.appendChild(option);
+document.addEventListener("DOMContentLoaded", () => {
+
+  const stageSelect = document.getElementById("stageSelect");
+
+  if (stageSelect) {
+    calendar.forEach(stage => {
+      const option = document.createElement("option");
+      option.value = stage.name;
+      option.textContent = stage.name;
+      stageSelect.appendChild(option);
+    });
+  }
+
 });
+
 
 // ===============================
 // ИНФОБЛОК
@@ -91,13 +99,15 @@ function updateInfoBlock() {
     todayStr >= stage.showFrom && todayStr <= stage.showUntil
   );
 
-  const infoBlock = document.getElementById("infoBlock");
+ const infoBlock = document.getElementById("infoBlock");
+if (!infoBlock) return;
 
-  if (current) {
-    infoBlock.textContent = `Ближайший этап: ${current.name} (${current.start}.2026)`;
-  } else {
-    infoBlock.textContent = "Межсезонье";
-  }
+if (current) {
+  infoBlock.textContent = `Ближайший этап: ${current.name} (${current.start}.2026)`;
+} else {
+  infoBlock.textContent = "Межсезонье";
+}
+
 
 }
 
@@ -118,8 +128,10 @@ function getNextRace() {
 
 function updateCountdown() {
 
-  const nextRace = getNextRace();
   const title = document.getElementById("countdownTitle");
+  if (!title) return;
+
+  const nextRace = getNextRace();
 
   if (!nextRace) {
     title.textContent = "Сезон завершен";
@@ -136,18 +148,30 @@ function updateCountdown() {
   const minutes = Math.floor((diff/(1000*60))%60);
   const seconds = Math.floor((diff/1000)%60);
 
-  document.getElementById("days").textContent = days;
-  document.getElementById("hours").textContent = hours;
-  document.getElementById("minutes").textContent = minutes;
-  document.getElementById("seconds").textContent = seconds;
+  const d = document.getElementById("days");
+  const h = document.getElementById("hours");
+  const m = document.getElementById("minutes");
+  const s = document.getElementById("seconds");
+
+  if (d) d.textContent = days;
+  if (h) h.textContent = hours;
+  if (m) m.textContent = minutes;
+  if (s) s.textContent = seconds;
 }
 
+
 function setZero(){
-  document.getElementById("days").textContent = 0;
-  document.getElementById("hours").textContent = 0;
-  document.getElementById("minutes").textContent = 0;
-  document.getElementById("seconds").textContent = 0;
+  const d = document.getElementById("days");
+  const h = document.getElementById("hours");
+  const m = document.getElementById("minutes");
+  const s = document.getElementById("seconds");
+
+  if (d) d.textContent = 0;
+  if (h) h.textContent = 0;
+  if (m) m.textContent = 0;
+  if (s) s.textContent = 0;
 }
+
 
 setInterval(updateCountdown, 1000);
 updateCountdown();
@@ -186,18 +210,38 @@ function createSelect(name, index) {
 }
 
 function generatePredictionFields() {
+
   const quali = document.getElementById("qualifyingContainer");
   const race = document.getElementById("raceContainer");
 
+  if (!quali || !race) return;
+
+  // Заголовок квалификации
+  const qualiTitle = document.createElement("h3");
+  qualiTitle.textContent = "Квалификация";
+  qualiTitle.style.marginTop = "20px";
+  quali.appendChild(qualiTitle);
+
+  // 5 мест квалификации
   for(let i=1; i<=5; i++){
     quali.appendChild(createSelect("Q", i));
   }
+
+  // Заголовок гонки
+  const raceTitle = document.createElement("h3");
+  raceTitle.textContent = "Гонка";
+  raceTitle.style.marginTop = "25px";
+  race.appendChild(raceTitle);
+
+  // 10 мест гонки
   for(let i=1; i<=10; i++){
     race.appendChild(createSelect("R", i));
   }
+
 }
 
-generatePredictionFields();
+
+
 
 // =====================================================
 // БЛОКИРОВКА ДУБЛЕЙ
@@ -242,8 +286,6 @@ function addDuplicateBlocking(containerId) {
   });
 }
 
-addDuplicateBlocking("qualifyingContainer");
-addDuplicateBlocking("raceContainer");
 
 // ===============================
 // URL GOOGLE SCRIPT
@@ -268,8 +310,11 @@ function showToast(message) {
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
 
-  const form = document.getElementById("predictionForm");
+  generatePredictionFields();
+  addDuplicateBlocking("qualifyingContainer");
+  addDuplicateBlocking("raceContainer");
 
+  const form = document.getElementById("predictionForm");
   if (!form) return;
 
   form.addEventListener("submit", function (e) {
@@ -348,6 +393,31 @@ for (let i = 1; i <= 10; i++) {
 
 });
 
+// ===============================
+// ADMIN ДОСТУП
+// ===============================
+const ADMIN_PASSWORD = "4223";
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const adminBtn = document.getElementById("adminBtn");
+
+  if (adminBtn) {
+    adminBtn.addEventListener("click", () => {
+
+      const password = prompt("Введите пароль:");
+
+      if (password === ADMIN_PASSWORD) {
+        sessionStorage.setItem("adminAuth", "true");
+        window.location.href = "admin.html";
+      } else {
+        alert("Неверный пароль");
+      }
+
+    });
+  }
+
+});
 
 
 
