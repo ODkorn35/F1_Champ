@@ -126,3 +126,20 @@ button:hover {
   opacity: 1;
 }
 
+.admin-btn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  padding: 6px 12px;
+  font-size: 12px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.admin-btn:hover {
+  opacity: 0.8;
+}

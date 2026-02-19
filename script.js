@@ -348,6 +348,31 @@ for (let i = 1; i <= 10; i++) {
 
 });
 
+// ===============================
+// ADMIN ДОСТУП
+// ===============================
+const ADMIN_PASSWORD = "4223";
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const adminBtn = document.getElementById("adminBtn");
+
+  if (adminBtn) {
+    adminBtn.addEventListener("click", () => {
+
+      const password = prompt("Введите пароль:");
+
+      if (password === ADMIN_PASSWORD) {
+        sessionStorage.setItem("adminAuth", "true");
+        window.location.href = "admin.html";
+      } else {
+        alert("Неверный пароль");
+      }
+
+    });
+  }
+
+});
 
 
 
