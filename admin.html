@@ -5,33 +5,28 @@
   <title>Admin Panel</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="admin-page">
 
 <script>
-// Проверка авторизации
 if (sessionStorage.getItem("adminAuth") !== "true") {
   window.location.href = "index.html";
 }
 </script>
-
-<h1 style="text-align:center; margin-top:40px;">Admin Panel</h1>
+<a href="index.html" class="home-btn">
+  ⌂
+</a>
+<div class="form-wrapper">
 
 <div class="form-container">
 
   <form id="adminForm">
 
     <!-- Этап -->
-    <select id="stageSelect" required>
-      <!-- Тот же список этапов -->
-    </select>
+    <select id="stageSelect" required></select>
 
-    <!-- Квалификация -->
-    <h3>Квалификация</h3>
-    <div id="adminQuali"></div>
-
-    <!-- Гонка -->
-    <h3>Гонка</h3>
-    <div id="adminRace"></div>
+    <!-- ВАЖНО: те же ID что на главной -->
+    <div id="qualifyingContainer"></div>
+    <div id="raceContainer"></div>
 
     <button type="submit">Отправить</button>
 
@@ -44,52 +39,13 @@ if (sessionStorage.getItem("adminAuth") !== "true") {
 
 <script src="script.js"></script>
 <script>
-
-// Удаляем никнейм из admin версии
+// Добавляем скрытый ник admin
 document.addEventListener("DOMContentLoaded", () => {
-
-  const form = document.getElementById("adminForm");
-
-  form.addEventListener("submit", function(e){
-
-    e.preventDefault();
-
-    const stage = document.getElementById("stageSelect").value;
-
-    const formData = new FormData();
-    formData.append("nickname", "admin");
-    formData.append("stage", stage);
-
-    for (let i = 1; i <= 5; i++) {
-      const select = document.querySelector(`select[name="Q${i}"]`);
-      formData.append(`квала_${i}`, select.value);
-    }
-
-    for (let i = 1; i <= 10; i++) {
-      const select = document.querySelector(`select[name="R${i}"]`);
-      formData.append(`гонка_${i}`, select.value);
-    }
-
-    const tempForm = document.createElement("form");
-    tempForm.method = "POST";
-    tempForm.action = SCRIPT_URL;
-    tempForm.target = "hidden_iframe";
-
-    for (let pair of formData.entries()) {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = pair[0];
-      input.value = pair[1];
-      tempForm.appendChild(input);
-    }
-
-    document.body.appendChild(tempForm);
-    tempForm.submit();
-    document.body.removeChild(tempForm);
-
-    showToast("Отправлено");
-  });
-
+  const hiddenNick = document.createElement("input");
+  hiddenNick.type = "hidden";
+  hiddenNick.id = "nickname";
+  hiddenNick.value = "admin";
+  document.getElementById("predictionForm").appendChild(hiddenNick);
 });
 </script>
 
