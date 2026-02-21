@@ -1,13 +1,134 @@
+/* Кнопки по центру сверху на всех страницах */
+.top-btns {
+  position: fixed;
+  top: 15px;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  z-index: 9999;
+}
+.top-btns .home-btn,
+.top-btns .admin-btn,
+.top-btns .table-btn {
+  position: static;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .top-btns {
+    flex-direction: column;
+    top: 10px;
+    gap: 6px;
+  }
+}
+/* Вертикальное расположение таблиц на странице с таблицами */
+.tables-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+@media (max-width: 900px) {
+  .tables-vertical {
+    gap: 18px;
+    margin-top: 20px;
+  }
+}
+/* Вертикальное расположение таблиц на table.html */
+.results-table-wrapper {
+  margin-bottom: 30px;
+  margin: 30px auto;
+  max-width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+  padding: 20px;
+}
+
+@media (max-width: 600px) {
+  .results-table-wrapper {
+    padding: 5px;
+    margin-bottom: 18px;
+  }
+  table.results-table {
+    font-size: 13px;
+    width: 100%;
+  }
+}
+/* Кнопки сверху на главной */
+.top-btns {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 10px;
+  z-index: 9999;
+}
+.top-btns .admin-btn,
+.top-btns .table-btn {
+  position: static;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .top-btns {
+    flex-direction: column;
+    top: 10px;
+    right: 10px;
+    gap: 6px;
+  }
+}
+/* Кнопка для страницы с таблицей */
+.table-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  font-size: 12px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 9999;
+  text-decoration: none;
+  transition: 0.2s ease;
+  height: 20px;
+}
+.table-btn:hover {
+  opacity: 0.8;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f4f4f4;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  padding-top: 0;
 }
 
+.top-btns-box {
+  width: 100%;
+  max-width: 500px;
+  margin: 40px auto 0 auto;
+  display: flex;
+  justify-content: center;
+  position: static;
+  z-index: 9999;
+  background: white;
+  padding: 15px 0 20px 0;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+  border-radius: 12px;
+}
 .container {
   background: white;
   padding: 25px;
@@ -16,6 +137,7 @@ body {
   width: 100%;
   max-width: 500px;
   text-align: center;
+  margin-bottom: 30px;
 }
 
 h1 {
@@ -149,20 +271,56 @@ button:hover {
 }
 
 .home-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: #000;
-  color: #fff;
-  text-decoration: none;
-  width: 40px;
-  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
   font-size: 18px;
   transition: 0.2s ease;
+  width: 50px;
+  height: 32px;
+  border: none;
+  cursor: pointer;
+}
+/* Бокс для кнопок сверху */
+.top-btns-box {
+  width: 100%;
+  max-width: 500px;
+  margin: 10px auto 10px auto;
+  display: flex;
+  justify-content: center;
+  position: static;
+  z-index: 9999;
+  background: white;
+  padding: 15px 0 20px 0;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+  border-radius: 12px;
+}
+body {
+  padding-top: 0;
+}
+@media (max-width: 600px) {
+  .top-btns-box {
+    max-width: 95vw;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    border-radius: 10px;
+  }
+  body {
+    padding-top: 100px;
+  }
+}
+.top-btns {
+  position: static;
+}
+@media (max-width: 600px) {
+  .top-btns-box {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 }
 
 .home-btn:hover {
@@ -243,5 +401,46 @@ button:hover {
 /* Поворот стрелки при открытии */
 .custom-select.open .selected::after {
   transform: rotate(180deg);
+}
+
+/* Final overrides: ensure tables stretch to container and spacing under buttons */
+.top-btns-box {
+  margin: 30px auto 36px auto !important;
+}
+
+.results-table-wrapper {
+  max-width: 500px !important;
+  width: 100% !important;
+}
+
+table.results-table {
+  width: 100% !important;
+  table-layout: fixed; /* позволить фиксировать ширины колонок */
+}
+
+table.results-table th,
+table.results-table td {
+  white-space: normal;
+  word-break: break-word;
+  padding: 12px 10px;
+  text-align: center;
+}
+
+/* Установим ширину первого столбца (индекс 1) */
+table.results-table th:first-child,
+table.results-table td:first-child {
+  width: 80px; /* изменить здесь, если нужно шире/уже */
+  max-width: 120px;
+}
+
+/* Немного увеличим вторую колонку при необходимости */
+table.results-table th:nth-child(2),
+table.results-table td:nth-child(2) {
+  width: calc(100% - 120px);
+}
+
+@media (max-width: 600px) {
+  .top-btns-box { margin: 18px auto 20px auto !important; }
+  .results-table-wrapper { max-width: 95vw !important; }
 }
 

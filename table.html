@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Личный зачет</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Дополнительное оформление таблицы */
+    .results-table-wrapper {
+      margin: 30px auto;
+      max-width: 800px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      padding: 20px;
+    }
+    table.results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 auto;
+      font-size: 16px;
+      background: #fafafa;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    table.results-table th, table.results-table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #e0e0e0;
+      text-align: center;
+    }
+    table.results-table th {
+      background: #222;
+      color: #fff;
+      font-weight: 600;
+    }
+    table.results-table tr:last-child td {
+      border-bottom: none;
+    }
+    @media (max-width: 600px) {
+      .results-table-wrapper { padding: 5px; }
+      table.results-table { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-btns-box">
+    <div class="top-btns">
+      <a href="index.html" class="home-btn">⌂</a>
+      <button id="adminBtn" class="admin-btn">Admin</button>
+      <a href="table.html" class="table-btn">Общий зачет</a>
+    </div>
+  </div>
+  <div class="tables-vertical">
+    <div class="results-table-wrapper">
+      <h1>Личный зачет</h1>
+      <div id="table-container">Загрузка...</div>
+    </div>
+    <div class="results-table-wrapper">
+      <h1>Кубок конструкторов</h1>
+      <div id="table-container2">Загрузка...</div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    const SHEET_ID = '1gu_jBVaBrE4cc0mMeKzVfZ7mDtaLBmDqe8XijeHXAyU';
+    const API_KEY = 'AIzaSyAa5FZg7ddmS9SB3XTRcU5A0J1Lac5q9yM';
+    // Личный зачет
+    const RANGE1 = 'общий зачет!E1:G21';
+    // Кубок конструкторов
+    const RANGE2 = 'общий зачет!A1:C11';
+
+    function renderTable(containerId, range) {
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(range)}?key=${API_KEY}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (!data.values) {
+            document.getElementById(containerId).innerText = 'Ошибка загрузки данных.';
+            return;
+          }
+          let html = '<table class="results-table">';
+          data.values.forEach((row, i) => {
+            html += '<tr>' + row.map(cell => `<${i===0?'th':'td'}>${cell}</${i===0?'th':'td'}>`).join('') + '</tr>';
+          });
+          html += '</table>';
+          document.getElementById(containerId).innerHTML = html;
+        })
+        .catch(() => {
+          document.getElementById(containerId).innerText = 'Ошибка загрузки данных.';
+        });
+    }
+    renderTable('table-container', RANGE1);
+    renderTable('table-container2', RANGE2);
+  </script>
+</body>
+</html>
