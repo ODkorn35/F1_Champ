@@ -549,28 +549,52 @@ if (nicknameSelect) {
 
 function updateDriverAvailability() {
 
-  // Собираем выбранных пилотов
-  const selectedDrivers = [];
+  // ====== КВАЛИФИКАЦИЯ ======
+  const qualiSelects = document.querySelectorAll(".driver-select input[name^='Q']");
 
-  document.querySelectorAll(".custom-select.driver-select").forEach(select => {
+  const selectedQuali = [];
 
-    const hiddenInput = select.querySelector("input[type='hidden']");
-    if (hiddenInput && hiddenInput.value) {
-      selectedDrivers.push(hiddenInput.value);
-    }
-
+  qualiSelects.forEach(input => {
+    if (input.value) selectedQuali.push(input.value);
   });
 
-  // Блокируем выбранных
-  document.querySelectorAll(".custom-select.driver-select").forEach(select => {
+  qualiSelects.forEach(input => {
 
-    const hiddenInput = select.querySelector("input[type='hidden']");
+    const wrapper = input.closest(".driver-select");
 
-    select.querySelectorAll(".option").forEach(option => {
+    wrapper.querySelectorAll(".option").forEach(option => {
 
       const value = option.dataset.value;
 
-      if (selectedDrivers.includes(value) && hiddenInput.value !== value) {
+      if (selectedQuali.includes(value) && input.value !== value) {
+        option.classList.add("disabled");
+      } else {
+        option.classList.remove("disabled");
+      }
+
+    });
+
+  });
+
+
+  // ====== ГОНКА ======
+  const raceSelects = document.querySelectorAll(".driver-select input[name^='R']");
+
+  const selectedRace = [];
+
+  raceSelects.forEach(input => {
+    if (input.value) selectedRace.push(input.value);
+  });
+
+  raceSelects.forEach(input => {
+
+    const wrapper = input.closest(".driver-select");
+
+    wrapper.querySelectorAll(".option").forEach(option => {
+
+      const value = option.dataset.value;
+
+      if (selectedRace.includes(value) && input.value !== value) {
         option.classList.add("disabled");
       } else {
         option.classList.remove("disabled");
