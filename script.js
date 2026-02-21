@@ -141,6 +141,7 @@ if (stageCustom) {
 
       dropdown.classList.remove("open");
       stageCustom.classList.remove("open");
+      updateDriverAvailability();
     });
   });
 
@@ -261,19 +262,25 @@ updateCountdown();
 function createSelect(name, index) {
 
   const wrapper = document.createElement("div");
-  wrapper.classList.add("custom-select");
+  wrapper.classList.add("custom-select", "driver-select");
 
   const selected = document.createElement("div");
   selected.classList.add("selected");
   selected.textContent = `${index} место`;
+  selected.dataset.default = `${index} место`;
 
   const dropdown = document.createElement("div");
   dropdown.classList.add("dropdown");
+
+  const hiddenInput = document.createElement("input");
+  hiddenInput.type = "hidden";
+  hiddenInput.name = name + index;
 
   drivers.forEach(driver => {
 
     const option = document.createElement("div");
     option.classList.add("option");
+    option.dataset.value = driver;   // ВАЖНО!
 
     const img = document.createElement("img");
     img.src = `images/icons/${driverIcons[driver]}`;
@@ -286,24 +293,33 @@ function createSelect(name, index) {
     option.appendChild(span);
 
     option.addEventListener("click", () => {
+
       selected.innerHTML = "";
       selected.appendChild(img.cloneNode());
       selected.append(" " + driver);
+
       hiddenInput.value = driver;
+
       dropdown.classList.remove("open");
+      wrapper.classList.remove("open");
+
+      updateDriverAvailability();   // ВАЖНО!
     });
 
     dropdown.appendChild(option);
   });
 
   selected.addEventListener("click", () => {
-  dropdown.classList.toggle("open");
-  selectContainer.classList.toggle("open");
-});
+    dropdown.classList.toggle("open");
+    wrapper.classList.toggle("open");
+  });
 
-  const hiddenInput = document.createElement("input");
-  hiddenInput.type = "hidden";
-  hiddenInput.name = name + index;
+  document.addEventListener("click", (e) => {
+    if (!wrapper.contains(e.target)) {
+      dropdown.classList.remove("open");
+      wrapper.classList.remove("open");
+    }
+  });
 
   wrapper.appendChild(selected);
   wrapper.appendChild(dropdown);
@@ -344,50 +360,6 @@ function generatePredictionFields() {
 }
 
 
-// =====================================================
-// БЛОКИРОВКА ДУБЛЕЙ
-// =====================================================
-
-function addDuplicateBlocking(containerId) {
-
-  const container = document.getElementById(containerId);
-  const selects = container.querySelectorAll("select");
-
-  selects.forEach(select => {
-
-    select.addEventListener("change", () => {
-
-      const selectedValues = Array.from(selects)
-        .map(s => s.value)
-        .filter(v => v !== "");
-
-      selects.forEach(s => {
-
-        const currentValue = s.value;
-
-        Array.from(s.options).forEach(option => {
-
-          if(option.value === "") return;
-
-          if(
-            selectedValues.includes(option.value) &&
-            option.value !== currentValue
-          ){
-            option.disabled = true;
-          } else {
-            option.disabled = false;
-          }
-
-        });
-
-      });
-
-    });
-
-  });
-}
-
-
 // ===============================
 // URL GOOGLE SCRIPT
 // ===============================
@@ -412,8 +384,7 @@ function showToast(message) {
 document.addEventListener("DOMContentLoaded", () => {
 
   generatePredictionFields();
-  addDuplicateBlocking("qualifyingContainer");
-  addDuplicateBlocking("raceContainer");
+  
 
   const form = document.getElementById("predictionForm");
   if (!form) return;
@@ -431,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const nickname = document.getElementById("nickname")?.value || "";
-    const stage = document.getElementById("stageSelect")?.value || "";
+    const stage = document.getElementById("stageHidden")?.value || "";
 
     // Проверка только для обычных пользователей
     if (!isAdminPage) {
@@ -447,15 +418,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Квалификация
     for (let i = 1; i <= 5; i++) {
-      const select = document.querySelector(`select[name="Q${i}"]`);
-      formData.append(`квала_${i}`, select ? select.value : "");
-    }
+  const input = document.querySelector(`input[name="Q${i}"]`);
+  if (input && input.value) {
+    formData.append(`квала_${i}`, input.value);
+  }
+}
 
     // Гонка
     for (let i = 1; i <= 10; i++) {
-      const select = document.querySelector(`select[name="R${i}"]`);
-      formData.append(`гонка_${i}`, select ? select.value : "");
-    }
+  const input = document.querySelector(`input[name="R${i}"]`);
+  if (input && input.value) {
+    formData.append(`гонка_${i}`, input.value);
+  }
+}
 
     const tempForm = document.createElement("form");
     tempForm.method = "POST";
@@ -476,31 +451,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     showToast("Прогноз успешно отправлен");
 
-    // =====================
-    // Очистка формы
-    // =====================
+// =====================
+// Очистка кастомных селектов
+// =====================
 
-    // Никнейм очищаем только у обычных пользователей
-    if (!isAdminPage) {
-      const nickField = document.getElementById("nickname");
-      if (nickField) nickField.value = "";
+function resetCustomSelects() {
+
+  document.querySelectorAll(".driver-select").forEach(select => {
+
+    const hiddenInput = select.querySelector("input[type='hidden']");
+    const selected = select.querySelector(".selected");
+
+    if (hiddenInput) hiddenInput.value = "";
+
+    if (selected) {
+      selected.innerHTML = "";
+      selected.textContent = selected.dataset.default;
     }
 
-    // Этап
-    const stageSelect = document.getElementById("stageSelect");
-    if (stageSelect) stageSelect.value = "";
+  });
 
-    // Квалификация
-    for (let i = 1; i <= 5; i++) {
-      const select = document.querySelector(`select[name="Q${i}"]`);
-      if (select) select.value = "";
-    }
+  updateDriverAvailability();
+}
 
-    // Гонка
-    for (let i = 1; i <= 10; i++) {
-      const select = document.querySelector(`select[name="R${i}"]`);
-      if (select) select.value = "";
-    }
+resetCustomSelects();
 
   });
 
@@ -532,7 +506,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// === Кастомный select никнейма ===
+// ===============================
+// Кастомный select никнейма 
+// ===============================
 
 const nicknameSelect = document.getElementById("nicknameSelect");
 
@@ -570,3 +546,67 @@ if (nicknameSelect) {
     }
   });
 }
+
+// ==========================================
+// Блокировка повторного выбора пилотов
+// ==========================================
+
+function updateDriverAvailability() {
+
+  // ====== КВАЛИФИКАЦИЯ ======
+  const qualiSelects = document.querySelectorAll(".driver-select input[name^='Q']");
+
+  const selectedQuali = [];
+
+  qualiSelects.forEach(input => {
+    if (input.value) selectedQuali.push(input.value);
+  });
+
+  qualiSelects.forEach(input => {
+
+    const wrapper = input.closest(".driver-select");
+
+    wrapper.querySelectorAll(".option").forEach(option => {
+
+      const value = option.dataset.value;
+
+      if (selectedQuali.includes(value) && input.value !== value) {
+        option.classList.add("disabled");
+      } else {
+        option.classList.remove("disabled");
+      }
+
+    });
+
+  });
+
+
+  // ====== ГОНКА ======
+  const raceSelects = document.querySelectorAll(".driver-select input[name^='R']");
+
+  const selectedRace = [];
+
+  raceSelects.forEach(input => {
+    if (input.value) selectedRace.push(input.value);
+  });
+
+  raceSelects.forEach(input => {
+
+    const wrapper = input.closest(".driver-select");
+
+    wrapper.querySelectorAll(".option").forEach(option => {
+
+      const value = option.dataset.value;
+
+      if (selectedRace.includes(value) && input.value !== value) {
+        option.classList.add("disabled");
+      } else {
+        option.classList.remove("disabled");
+      }
+
+    });
+
+  });
+
+}
+
