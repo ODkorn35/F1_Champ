@@ -13,7 +13,7 @@ function getMoscowDate() {
 // =====================================================
 
 const calendar = [
-{ name:"1. Австралия", start:"03-08", startTime:"15:00", showFrom:"03-02", showUntil:"03-08" },
+{ name:"1. Австралия", start:"03-08", startTime:"15:00", showFrom:"02-20", showUntil:"03-08" },
 { name:"2. Китай", start:"03-15", startTime:"15:00", showFrom:"03-09", showUntil:"03-15" },
 { name:"3. Япония", start:"03-29", startTime:"14:00", showFrom:"03-16", showUntil:"03-29" },
 { name:"4. Бахрейн", start:"04-12", startTime:"18:00", showFrom:"03-30", showUntil:"04-12" },
@@ -44,26 +44,28 @@ const calendar = [
 // =====================================================
 
 const drivers = [
-"Ферстаппен",
-"Перес",
-"Хэмилтон",
-"Расселл",
-"Леклер",
-"Сайнс",
 "Норрис",
 "Пиастри",
+"Расселл",
+"Антонелли",
+"Ферстаппен",
+"Хаджар",
+"Леклер",
+"Хэмилтон",
+"Албон",
+"Сайнс",
+"Лоусон",
+"Линдблад",
 "Алонсо",
 "Стролл",
-"Гасли",
+"Берман",
 "Окон",
-"Албон",
-"Цунода",
-"Боттас",
-"Чжоу",
 "Хюлькенберг",
-"Магнуссен",
-"Риккардо",
-"Сарджент"
+"Бортолето",
+"Гасли",
+"Колапинто",
+"Боттас",
+"Перес"
 ];
 
 // =====================================================
@@ -99,14 +101,19 @@ function updateInfoBlock() {
     todayStr >= stage.showFrom && todayStr <= stage.showUntil
   );
 
-const infoBlock = document.getElementById("infoBlock");
-if (!infoBlock) return;
+  const infoBlock = document.getElementById("infoBlock");
+  if (!infoBlock) return;
 
-if (current) {
-  infoBlock.textContent = `Ближайший этап: ${current.name} (${current.start}.2026)`;
-} else {
-  infoBlock.textContent = "Межсезонье";
-}
+  if (current) {
+
+    const [month, day] = current.start.split("-");
+    const formattedDate = `${day}.${month}.2026`;
+
+    infoBlock.textContent = `Ближайший этап: ${current.name} (${formattedDate})`;
+
+  } else {
+    infoBlock.textContent = "Межсезонье";
+  }
 }
 updateInfoBlock();
 
