@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Panel</title>
+  <title>F1 Admin</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="admin-page">
@@ -17,12 +17,13 @@ if (sessionStorage.getItem("adminAuth") !== "true") {
 </a>
 <div class="form-wrapper">
 
-<div class="form-container">
-
-  <form id="adminForm">
+  <form id="predictionForm">
 
     <!-- Этап -->
-    <select id="stageSelect" required></select>
+    <div class="custom-select" id="stageCustomSelect">
+  <div class="selected">Выберите этап</div>
+  <div class="dropdown"></div>
+</div>
 
     <!-- ВАЖНО: те же ID что на главной -->
     <div id="qualifyingContainer"></div>
@@ -38,6 +39,7 @@ if (sessionStorage.getItem("adminAuth") !== "true") {
 <div id="toast" class="toast"></div>
 
 <script src="script.js"></script>
+
 <script>
 // Добавляем скрытый ник admin
 document.addEventListener("DOMContentLoaded", () => {

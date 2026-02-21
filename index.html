@@ -42,32 +42,41 @@
 
 <form id="predictionForm">
 
-  <select id="nickname" name="nickname" required>
-  <option value="">Выберите никнейм</option>
-  <option value="bugay">Bugay</option>
-  <option value="gunek">Gunek</option>
-  <option value="grobbelaar">Grobbelaar</option>
-  <option value="sidaya">sidaya</option>
-  <option value="creator">Creator</option>
-  <option value="z_master">z_master</option>
-  <option value="mmban">mmban</option>
-  <option value="nsa">NSA</option>
-  <option value="batya">Batya</option>
-  <option value="odkorn">ODkorn</option>
-  <option value="nickolay2801">Nickolay2801</option>
-  <option value="rumkot">rumkot</option>
-  <option value="fildeger">fildeger</option>
-  <option value="strelets">Strelets</option>
-  <option value="digor">digor</option>
-  <option value="fin-82">fin-82</option>
-  <option value="grionik">grionik</option>
-  <option value="loan">loan</option>
-  <option value="macs">Macs</option>
-  <option value="tutorial">Tutorial</option>
-</select>
+  <div class="custom-select" id="nicknameSelect">
+  
+  <!-- скрытое поле для отправки формы -->
+  <input type="hidden" id="nickname" name="nickname" required>
+
+  <div class="selected">Выберите никнейм</div>
+  <div class="dropdown">
+    <div class="option" data-value="bugay">Bugay</div>
+    <div class="option" data-value="gunek">Gunek</div>
+    <div class="option" data-value="grobbelaar">Grobbelaar</div>
+    <div class="option" data-value="sidaya">sidaya</div>
+    <div class="option" data-value="creator">Creator</div>
+    <div class="option" data-value="z_master">z_master</div>
+    <div class="option" data-value="mmban">mmban</div>
+    <div class="option" data-value="nsa">NSA</div>
+    <div class="option" data-value="batya">Batya</div>
+    <div class="option" data-value="odkorn">ODkorn</div>
+    <div class="option" data-value="nickolay2801">Nickolay2801</div>
+    <div class="option" data-value="rumkot">rumkot</div>
+    <div class="option" data-value="fildeger">fildeger</div>
+    <div class="option" data-value="strelets">Strelets</div>
+    <div class="option" data-value="digor">digor</div>
+    <div class="option" data-value="fin-82">fin-82</div>
+    <div class="option" data-value="grionik">grionik</div>
+    <div class="option" data-value="loan">loan</div>
+    <div class="option" data-value="macs">Macs</div>
+    <div class="option" data-value="tutorial">Tutorial</div>
+  </div>
+</div>
 
 
-  <select id="stageSelect"></select>
+  <div class="custom-select" id="stageCustomSelect">
+  <div class="selected">Выберите этап</div>
+  <div class="dropdown"></div>
+</div>
 
   <h3>Квалификация (топ-5)</h3>
   <div id="qualifyingContainer"></div>
