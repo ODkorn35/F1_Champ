@@ -20,7 +20,10 @@ if (sessionStorage.getItem("adminAuth") !== "true") {
   <form id="predictionForm">
 
     <!-- Этап -->
-    <select id="stageSelect" required></select>
+    <div class="custom-select" id="stageCustomSelect">
+  <div class="selected">Выберите этап</div>
+  <div class="dropdown"></div>
+</div>
 
     <!-- ВАЖНО: те же ID что на главной -->
     <div id="qualifyingContainer"></div>
