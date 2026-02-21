@@ -184,7 +184,9 @@ function createSelect(name, index) {
 
   const select = document.createElement("select");
   select.name = name + index;
+  if (!document.body.classList.contains("admin-page")) {
   select.required = true;
+}
   select.style.width = "100%";
 
   const defaultOption = document.createElement("option");
@@ -320,10 +322,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const stage = document.getElementById("stageSelect").value;
 
-    if (!nickname || !stage) {
-      showToast("Заполните все обязательные поля");
-      return;
-    }
+    const isAdminPage = document.body.classList.contains("admin-page");
+
+if (!isAdminPage) {
+  if (!nickname || !stage) {
+    showToast("Заполните все обязательные поля");
+    return;
+  }
+}
 
     const formData = new FormData();
 
