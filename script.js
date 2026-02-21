@@ -401,7 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const nickname = document.getElementById("nickname")?.value || "";
-    const stage = document.getElementById("stageSelect")?.value || "";
+    const stage = document.getElementById("stageHidden")?.value || "";
 
     // Проверка только для обычных пользователей
     if (!isAdminPage) {
