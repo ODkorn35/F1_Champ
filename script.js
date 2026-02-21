@@ -267,6 +267,7 @@ function createSelect(name, index) {
   const selected = document.createElement("div");
   selected.classList.add("selected");
   selected.textContent = `${index} место`;
+  selected.dataset.default = `${index} место`;
 
   const dropdown = document.createElement("div");
   dropdown.classList.add("dropdown");
@@ -418,13 +419,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // Квалификация
     for (let i = 1; i <= 5; i++) {
   const input = document.querySelector(`input[name="Q${i}"]`);
-  formData.append(`квала_${i}`, input ? input.value : "");
+  if (input && input.value) {
+    formData.append(`квала_${i}`, input.value);
+  }
 }
 
     // Гонка
     for (let i = 1; i <= 10; i++) {
   const input = document.querySelector(`input[name="R${i}"]`);
-  formData.append(`гонка_${i}`, input ? input.value : "");
+  if (input && input.value) {
+    formData.append(`гонка_${i}`, input.value);
+  }
 }
 
     const tempForm = document.createElement("form");
@@ -446,31 +451,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     showToast("Прогноз успешно отправлен");
 
-    // =====================
-    // Очистка формы
-    // =====================
+// =====================
+// Очистка кастомных селектов
+// =====================
 
-    // Никнейм очищаем только у обычных пользователей
-    if (!isAdminPage) {
-      const nickField = document.getElementById("nickname");
-      if (nickField) nickField.value = "";
+function resetCustomSelects() {
+
+  document.querySelectorAll(".driver-select").forEach(select => {
+
+    const hiddenInput = select.querySelector("input[type='hidden']");
+    const selected = select.querySelector(".selected");
+
+    if (hiddenInput) hiddenInput.value = "";
+
+    if (selected) {
+      selected.innerHTML = "";
+      selected.textContent = selected.dataset.default;
     }
 
-    // Этап
-    const stageSelect = document.getElementById("stageSelect");
-    if (stageSelect) stageSelect.value = "";
+  });
 
-    // Квалификация
-    for (let i = 1; i <= 5; i++) {
-  const input = document.querySelector(`input[name="Q${i}"]`);
-  if (input) input.value = "";
+  updateDriverAvailability();
 }
 
-    // Гонка
-    for (let i = 1; i <= 10; i++) {
-  const input = document.querySelector(`input[name="R${i}"]`);
-  if (input) input.value = "";
-}
+resetCustomSelects();
 
   });
 
@@ -605,3 +609,4 @@ function updateDriverAvailability() {
   });
 
 }
+
