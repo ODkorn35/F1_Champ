@@ -317,42 +317,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     e.preventDefault();
 
-    const nickname = document.getElementById("nickname").value;
-
-
-    const stage = document.getElementById("stageSelect").value;
-
     const isAdminPage = document.body.classList.contains("admin-page");
 
-if (!isAdminPage) {
-  if (!nickname || !stage) {
-    showToast("Заполните все обязательные поля");
-    return;
-  }
-}
+    // Если админ — принудительно устанавливаем nickname
+    if (isAdminPage) {
+      const nickField = document.getElementById("nickname");
+      if (nickField) nickField.value = "admin";
+    }
+
+    const nickname = document.getElementById("nickname")?.value || "";
+    const stage = document.getElementById("stageSelect")?.value || "";
+
+    // Проверка только для обычных пользователей
+    if (!isAdminPage) {
+      if (!nickname || !stage) {
+        showToast("Заполните все обязательные поля");
+        return;
+      }
+    }
 
     const formData = new FormData();
-
     formData.append("nickname", nickname);
     formData.append("stage", stage);
 
-    // Квалификация (5)
+    // Квалификация
     for (let i = 1; i <= 5; i++) {
       const select = document.querySelector(`select[name="Q${i}"]`);
-      if (select) {
-        formData.append(`квала_${i}`, select.value);
-      }
+      formData.append(`квала_${i}`, select ? select.value : "");
     }
 
-    // Гонка (10)
+    // Гонка
     for (let i = 1; i <= 10; i++) {
       const select = document.querySelector(`select[name="R${i}"]`);
-      if (select) {
-        formData.append(`гонка_${i}`, select.value);
-      }
+      formData.append(`гонка_${i}`, select ? select.value : "");
     }
 
-    // Создаем временную форму для iframe
     const tempForm = document.createElement("form");
     tempForm.method = "POST";
     tempForm.action = SCRIPT_URL;
@@ -371,23 +370,32 @@ if (!isAdminPage) {
     document.body.removeChild(tempForm);
 
     showToast("Прогноз успешно отправлен");
-    // Очистка никнейма
-document.getElementById("nickname").value = "";
 
-// Очистка этапа
-document.getElementById("stageSelect").value = "";
+    // =====================
+    // Очистка формы
+    // =====================
 
-// Очистка квалификации
-for (let i = 1; i <= 5; i++) {
-  const select = document.querySelector(`select[name="Q${i}"]`);
-  if (select) select.value = "";
-}
+    // Никнейм очищаем только у обычных пользователей
+    if (!isAdminPage) {
+      const nickField = document.getElementById("nickname");
+      if (nickField) nickField.value = "";
+    }
 
-// Очистка гонки
-for (let i = 1; i <= 10; i++) {
-  const select = document.querySelector(`select[name="R${i}"]`);
-  if (select) select.value = "";
-}
+    // Этап
+    const stageSelect = document.getElementById("stageSelect");
+    if (stageSelect) stageSelect.value = "";
+
+    // Квалификация
+    for (let i = 1; i <= 5; i++) {
+      const select = document.querySelector(`select[name="Q${i}"]`);
+      if (select) select.value = "";
+    }
+
+    // Гонка
+    for (let i = 1; i <= 10; i++) {
+      const select = document.querySelector(`select[name="R${i}"]`);
+      if (select) select.value = "";
+    }
 
   });
 
