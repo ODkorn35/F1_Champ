@@ -141,6 +141,7 @@ if (stageCustom) {
 
       dropdown.classList.remove("open");
       stageCustom.classList.remove("open");
+      updateDriverAvailability();
     });
   });
 
@@ -261,7 +262,7 @@ updateCountdown();
 function createSelect(name, index) {
 
   const wrapper = document.createElement("div");
-  wrapper.classList.add("custom-select");
+  wrapper.classList.add("custom-select", "driver-select");
 
   const selected = document.createElement("div");
   selected.classList.add("selected");
@@ -270,10 +271,15 @@ function createSelect(name, index) {
   const dropdown = document.createElement("div");
   dropdown.classList.add("dropdown");
 
+  const hiddenInput = document.createElement("input");
+  hiddenInput.type = "hidden";
+  hiddenInput.name = name + index;
+
   drivers.forEach(driver => {
 
     const option = document.createElement("div");
     option.classList.add("option");
+    option.dataset.value = driver;   // ВАЖНО!
 
     const img = document.createElement("img");
     img.src = `images/icons/${driverIcons[driver]}`;
@@ -286,24 +292,33 @@ function createSelect(name, index) {
     option.appendChild(span);
 
     option.addEventListener("click", () => {
+
       selected.innerHTML = "";
       selected.appendChild(img.cloneNode());
       selected.append(" " + driver);
+
       hiddenInput.value = driver;
+
       dropdown.classList.remove("open");
+      wrapper.classList.remove("open");
+
+      updateDriverAvailability();   // ВАЖНО!
     });
 
     dropdown.appendChild(option);
   });
 
   selected.addEventListener("click", () => {
-  dropdown.classList.toggle("open");
-  selectContainer.classList.toggle("open");
-});
+    dropdown.classList.toggle("open");
+    wrapper.classList.toggle("open");
+  });
 
-  const hiddenInput = document.createElement("input");
-  hiddenInput.type = "hidden";
-  hiddenInput.name = name + index;
+  document.addEventListener("click", (e) => {
+    if (!wrapper.contains(e.target)) {
+      dropdown.classList.remove("open");
+      wrapper.classList.remove("open");
+    }
+  });
 
   wrapper.appendChild(selected);
   wrapper.appendChild(dropdown);
@@ -344,50 +359,6 @@ function generatePredictionFields() {
 }
 
 
-// =====================================================
-// БЛОКИРОВКА ДУБЛЕЙ
-// =====================================================
-
-function addDuplicateBlocking(containerId) {
-
-  const container = document.getElementById(containerId);
-  const selects = container.querySelectorAll("select");
-
-  selects.forEach(select => {
-
-    select.addEventListener("change", () => {
-
-      const selectedValues = Array.from(selects)
-        .map(s => s.value)
-        .filter(v => v !== "");
-
-      selects.forEach(s => {
-
-        const currentValue = s.value;
-
-        Array.from(s.options).forEach(option => {
-
-          if(option.value === "") return;
-
-          if(
-            selectedValues.includes(option.value) &&
-            option.value !== currentValue
-          ){
-            option.disabled = true;
-          } else {
-            option.disabled = false;
-          }
-
-        });
-
-      });
-
-    });
-
-  });
-}
-
-
 // ===============================
 // URL GOOGLE SCRIPT
 // ===============================
@@ -412,8 +383,7 @@ function showToast(message) {
 document.addEventListener("DOMContentLoaded", () => {
 
   generatePredictionFields();
-  addDuplicateBlocking("qualifyingContainer");
-  addDuplicateBlocking("raceContainer");
+  
 
   const form = document.getElementById("predictionForm");
   if (!form) return;
@@ -447,15 +417,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Квалификация
     for (let i = 1; i <= 5; i++) {
-      const select = document.querySelector(`select[name="Q${i}"]`);
-      formData.append(`квала_${i}`, select ? select.value : "");
-    }
+  const input = document.querySelector(`input[name="Q${i}"]`);
+  formData.append(`квала_${i}`, input ? input.value : "");
+}
 
     // Гонка
     for (let i = 1; i <= 10; i++) {
-      const select = document.querySelector(`select[name="R${i}"]`);
-      formData.append(`гонка_${i}`, select ? select.value : "");
-    }
+  const input = document.querySelector(`input[name="R${i}"]`);
+  formData.append(`гонка_${i}`, input ? input.value : "");
+}
 
     const tempForm = document.createElement("form");
     tempForm.method = "POST";
@@ -492,15 +462,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Квалификация
     for (let i = 1; i <= 5; i++) {
-      const select = document.querySelector(`select[name="Q${i}"]`);
-      if (select) select.value = "";
-    }
+  const input = document.querySelector(`input[name="Q${i}"]`);
+  if (input) input.value = "";
+}
 
     // Гонка
     for (let i = 1; i <= 10; i++) {
-      const select = document.querySelector(`select[name="R${i}"]`);
-      if (select) select.value = "";
-    }
+  const input = document.querySelector(`input[name="R${i}"]`);
+  if (input) input.value = "";
+}
 
   });
 
@@ -532,7 +502,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// === Кастомный select никнейма ===
+// ===============================
+// Кастомный select никнейма 
+// ===============================
 
 const nicknameSelect = document.getElementById("nicknameSelect");
 
@@ -569,4 +541,43 @@ if (nicknameSelect) {
       nicknameSelect.classList.remove("open");
     }
   });
+}
+
+// ==========================================
+// Блокировка повторного выбора пилотов
+// ==========================================
+
+function updateDriverAvailability() {
+
+  // Собираем выбранных пилотов
+  const selectedDrivers = [];
+
+  document.querySelectorAll(".custom-select.driver-select").forEach(select => {
+
+    const hiddenInput = select.querySelector("input[type='hidden']");
+    if (hiddenInput && hiddenInput.value) {
+      selectedDrivers.push(hiddenInput.value);
+    }
+
+  });
+
+  // Блокируем выбранных
+  document.querySelectorAll(".custom-select.driver-select").forEach(select => {
+
+    const hiddenInput = select.querySelector("input[type='hidden']");
+
+    select.querySelectorAll(".option").forEach(option => {
+
+      const value = option.dataset.value;
+
+      if (selectedDrivers.includes(value) && hiddenInput.value !== value) {
+        option.classList.add("disabled");
+      } else {
+        option.classList.remove("disabled");
+      }
+
+    });
+
+  });
+
 }

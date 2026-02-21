@@ -216,6 +216,11 @@ button:hover {
   color: #000;
 }
 
+.option.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 .option:hover {
   background: #f2f2f2;
 }
@@ -239,3 +244,4 @@ button:hover {
 .custom-select.open .selected::after {
   transform: rotate(180deg);
 }
+
