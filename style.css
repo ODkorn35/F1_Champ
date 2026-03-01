@@ -1,19 +1,7 @@
 /* =============================================
-   F1 ПРОГНОЗЫ 2026 — ОЧИЩЕННЫЙ И ОПТИМИЗИРОВАННЫЙ STYLE.CSS
-   =============================================
-   Что сделано:
-   • Убраны ВСЕ дублирующиеся правила (.top-btns встречался 4 раза!)
-   • Убраны конфликты fixed / static
-   • Один единый .top-btns-box с большим отступом сверху
-   • Всё сгруппировано по логическим блокам
-   • Добавлены понятные комментарии
-   • Медиа-запросы собраны в конце каждого большого блока
-   • Убрано всё лишнее, оставлена только рабочая стилизация
+   F1 ПРОГНОЗЫ 2026 — ОПТИМИЗИРОВАННЫЙ STYLE.CSS
    ============================================= */
 
-/* =============================================
-   RESET & BASE STYLES
-   ============================================= */
 html, body {
     margin: 0;
     padding: 0;
@@ -23,12 +11,9 @@ html, body {
 
 body {
     background: transparent;
-    padding-top: 0 !important; /* важно — margin у .top-btns-box уже даёт отступ */
 }
 
-/* =============================================
-   ФОН СТРАНИЦЫ (самое важное для «воздуха» сверху)
-   ============================================= */
+/* Фон страницы */
 html {
     background: url("images/background.jpg") no-repeat center top fixed;
     background-size: cover;
@@ -36,19 +21,16 @@ html {
 
 @media (min-width: 1024px) {
     html {
-        background-position: center 0px;
+        background-position: center 0;
         background-size: 100% auto;
     }
 }
 
 /* =============================================
-   БЛОК КНОПОК СВЕРХУ — ГЛАВНЫЙ ФИКС ПРОБЛЕМЫ
-   =============================================
-   Теперь блок опущен вниз, фон виден сверху.
-   margin-top увеличен — регулируй здесь (120px — комфортно).
-   */
+   ВЕРХНИЙ БЛОК КНОПОК (Home, Admin, Общий зачёт)
+   ============================================= */
 .top-btns-box {
-    margin: 120px auto 40px auto !important;
+    margin: 120px auto 40px auto;
     width: 100%;
     max-width: 540px;
     background: white;
@@ -59,26 +41,21 @@ html {
     z-index: 10;
 }
 
-@media (max-width: 640px) {
-    .top-btns-box {
-        margin: 80px auto 30px auto !important;
-        max-width: 96vw;
-        padding: 12px 0 18px;
-        border-radius: 12px;
-    }
-}
-
-/* Внутренний flex-контейнер кнопок */
 .top-btns {
     display: flex;
     justify-content: center;
     gap: 10px;
-    width: 100%;
     padding: 0 10px;
 }
 
-/* Мобильное расположение кнопок */
-@media (max-width: 600px) {
+@media (max-width: 640px) {
+    .top-btns-box {
+        margin: 80px auto 30px auto;
+        max-width: 96vw;
+        padding: 12px 0 18px;
+        border-radius: 12px;
+    }
+
     .top-btns {
         flex-direction: column;
         gap: 6px;
@@ -86,81 +63,44 @@ html {
     }
 }
 
-/* =============================================
-   КНОПКИ (Home, Admin, Общий зачёт) — ЕДИНЫЙ СТИЛЬ
-   ============================================= */
-
+/* Кнопки */
 .home-btn,
 .admin-btn,
 .table-btn {
-    /* Базовые размеры — все кнопки одинаковые */
-    min-width: 110px;               /* гарантирует, что короткие тексты не сжимаются */
-    height: 38px;                   /* комфортная высота */
-    padding: 0 16px;                /* симметричный внутренний отступ */
-    
-    /* Визуал */
+    min-width: 110px;
+    height: 38px;
+    padding: 0 16px;
     background: #111111;
-    color: #ffffff;
-    font-size: 14px;                /* чуть крупнее, чем было */
+    color: white;
+    font-size: 14px;
     font-weight: 500;
-    line-height: 1;
-    text-decoration: none;
     border: none;
     border-radius: 8px;
-    
-    /* Выравнивание */
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;                       /* если вдруг будут иконка + текст */
-    
     cursor: pointer;
     transition: all 0.18s ease;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    text-decoration: none;
 }
 
-/* Иконка дома — делаем визуально одного размера с текстом */
 .home-btn {
-    font-size: 20px;                /* ⌂ выглядит лучше крупнее */
-    min-width: 54px;                /* уже, чем текстовые кнопки — выглядит естественно */
-    padding: 0;                     /* убираем лишний горизонтальный padding */
+    min-width: 54px;
+    font-size: 20px;
+    padding: 0;
 }
 
-/* Hover и active состояние — единое для всех */
 .home-btn:hover,
 .admin-btn:hover,
 .table-btn:hover {
-    background: #e10600;            /* фирменный красный F1 */
+    background: #e10600;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(225,6,0,0.35);
 }
 
-.home-btn:active,
-.admin-btn:active,
-.table-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-/* Мобильная версия — сохраняем одинаковый размер */
-@media (max-width: 600px) {
-    .home-btn,
-    .admin-btn,
-    .table-btn {
-        min-width: 100px;
-        height: 36px;
-        font-size: 13px;
-        padding: 0 14px;
-    }
-    
-    .home-btn {
-        min-width: 48px;
-        font-size: 19px;
-    }
-}
-
 /* =============================================
-   ОСНОВНОЙ КОНТЕЙНЕР (форма прогнозов)
+   ОСНОВНОЙ КОНТЕЙНЕР (форма, таблицы)
    ============================================= */
 .container {
     background: white;
@@ -169,44 +109,35 @@ html {
     box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     width: 100%;
     max-width: 500px;
+    margin: 0 auto 40px;
     text-align: center;
-    margin: 0 auto;
 }
 
 h1 {
     margin-bottom: 15px;
+    font-size: 28px;
 }
 
-#infoBlock {
-    margin-bottom: 15px;
-    font-weight: bold;
+.subtitle {
+    color: #666;
+    margin-bottom: 30px;
 }
 
-/* =============================================
-   ТАЙМЕР
-   ============================================= */
-#countdownWrapper {
-    margin-bottom: 20px;
-}
-
-#countdownTitle {
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
+/* Таймер */
 #countdownTimer {
     display: flex;
     justify-content: center;
     gap: 8px;
-    flex-wrap: wrap;
+    margin: 20px 0;
 }
 
 .timeBox {
-    background: #ffffff;
+    background: white;
     padding: 10px;
     border-radius: 8px;
     min-width: 65px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    text-align: center;
 }
 
 .timeBox span {
@@ -221,64 +152,24 @@ h1 {
 }
 
 /* =============================================
-   КАСТОМНЫЙ SELECT (этапы + пилоты)
+   КАСТОМНЫЕ SELECT (ник, этап, пилоты)
    ============================================= */
 .custom-select {
     position: relative;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .selected {
-    background: #ffffff;
-    color: #000;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     padding: 10px 14px;
-    border-radius: 6px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
-    border: 1px solid #ccc;
+    gap: 10px;
     min-height: 42px;
-}
-
-.dropdown {
-    position: absolute;
-    width: 100%;
-    background: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    max-height: 250px;
-    overflow-y: auto;
-    display: none;
-    z-index: 1000;
-}
-
-.dropdown.open {
-    display: block;
-}
-
-.option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
-    cursor: pointer;
-    color: #000;
-}
-
-.option.disabled {
-    opacity: 0.4;
-    pointer-events: none;
-}
-
-.option:hover {
-    background: #f2f2f2;
-}
-
-.driver-icon {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+    font-size: 15px;
 }
 
 .selected::after {
@@ -286,68 +177,97 @@ h1 {
     margin-left: auto;
     font-size: 12px;
     color: #666;
-    transition: transform 0.2s ease;
+    transition: transform 0.25s ease;
 }
 
 .custom-select.open .selected::after {
     transform: rotate(180deg);
 }
 
-/* =============================================
-   ТАБЛИЦЫ (на table.html)
-   ============================================= */
-.results-table-wrapper {
-    margin: 30px auto;
-    max-width: 500px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    padding: 20px;
-}
-
-table.results-table {
-    width: 100% !important;
-    table-layout: fixed;
-}
-
-table.results-table th,
-table.results-table td {
-    white-space: normal;
-    word-break: break-word;
-    padding: 12px 10px;
-    text-align: center;
-}
-
-table.results-table th:first-child,
-table.results-table td:first-child {
-    width: 80px;
-    max-width: 120px;
-}
-
-/* =============================================
-   МОДАЛЬНОЕ ОКНО + TOAST
-   ============================================= */
-.toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #111;
-    color: #fff;
-    padding: 14px 22px;
-    border-radius: 20px;
-    font-size: 14px;
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    z-index: 1000;
+    max-height: 0;
+    overflow: hidden;
     opacity: 0;
+    transition: max-height 0.28s ease-out, opacity 0.18s ease-out;
     pointer-events: none;
-    transition: 0.3s ease;
-    z-index: 9999;
 }
 
-.toast.show {
+.custom-select.open .dropdown {
+    max-height: 360px;
     opacity: 1;
+    pointer-events: auto;
+    overflow-y: auto;
 }
 
-/* Modal */
+.option {
+    padding: 10px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+}
+
+.option:hover {
+    background: #f5f5f5;
+}
+
+.option.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.driver-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    border-radius: 4px;
+    background: #f0f0f0;
+}
+
+/* =============================================
+   КНОПКИ ОТПРАВКИ
+   ============================================= */
+button[type="submit"] {
+    margin-top: 30px;
+    padding: 14px 40px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    background: #111111;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    min-width: 220px;
+}
+
+button[type="submit"]:hover {
+    background: #222222;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 600px) {
+    button[type="submit"] {
+        width: 100%;
+        min-width: unset;
+    }
+}
+
+/* =============================================
+   МОДАЛЬНЫЕ ОКНА (успех и ошибка)
+   ============================================= */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -372,44 +292,77 @@ table.results-table td:first-child {
     padding: 30px;
     border-radius: 16px;
     width: 90%;
-    max-width: 400px;
+    max-width: 420px;
     text-align: center;
-    transform: translateY(-20px);
-    transition: transform 0.25s ease;
     box-shadow: 0 15px 40px rgba(0,0,0,0.5);
 }
 
-.modal-overlay.active .modal-window {
-    transform: translateY(0);
+.success-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    font-size: 19px;
+    font-weight: 500;
 }
 
-.modal-title { font-size: 20px; font-weight: 600; margin-bottom: 15px; }
-.modal-text { font-size: 16px; margin-bottom: 25px; opacity: 0.85; }
+.success-check {
+    font-size: 36px;
+    color: #4caf50;
+}
+
 .modal-btn {
-    background: #e10600;
-    color: white;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 8px;
-    cursor: pointer;
+    padding: 12px 40px;
     font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
-.modal-btn:hover { background: #b80000; }
+.success-btn {
+    background: #4caf50;
+    color: white;
+}
 
-/* =============================================
-   АДМИН-ПАНЕЛЬ
-   ============================================= */
-.admin-page .form-wrapper {
-    margin-top: 60px;
+.validation-window .modal-btn {
+    background: #f44336;
+    color: white;
 }
 
 /* =============================================
-   МЕДИА-ЗАПРОСЫ (общие)
+   ТАБЛИЦЫ (общий зачёт, конструкторы)
    ============================================= */
+.results-table-wrapper {
+    margin: 30px auto;
+    max-width: 800px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    padding: 20px;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.results-table th,
+.results-table td {
+    padding: 12px 10px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.results-table th {
+    background: #222;
+    color: white;
+}
+
+/* Медиа-запросы */
 @media (max-width: 600px) {
     .container {
-        width: 90%;
         padding: 20px 15px;
     }
 
@@ -423,20 +376,10 @@ table.results-table td:first-child {
     }
 
     .results-table-wrapper {
-        padding: 5px;
-        margin-bottom: 18px;
+        padding: 10px;
     }
 
-    table.results-table {
+    .results-table {
         font-size: 13px;
     }
 }
-
-/* =============================================
-   ФИНАЛЬНЫЕ ПЕРЕОПРЕДЕЛЕНИЯ (самое последнее в файле!)
-   ============================================= */
-.top-btns-box {
-    margin: 120px auto 40px auto !important;
-}
-
-/* Если вдруг нужно ещё сильнее опустить — просто поменяй 120px → 160px здесь */

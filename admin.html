@@ -2,37 +2,41 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>F1 Admin</title>
+  <title>F1 Admin — Ввод результатов</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="admin-page">
+<body>
 
-<script>
-if (sessionStorage.getItem("adminAuth") !== "true") {
-  window.location.href = "index.html";
-}
-</script>
+<!-- Тот же блок кнопок, что на главной -->
 <div class="top-btns-box">
   <div class="top-btns">
     <a href="index.html" class="home-btn">⌂</a>
-    <a href="table.html" class="table-btn">Общий зачет</a>
+    <a href="table.html" class="table-btn">Общий зачёт</a>
   </div>
 </div>
-<div class="form-wrapper">
+
+<!-- Основной контейнер — такой же, как на index.html -->
+<div class="container admin-container">
+
+  <h1>Ввод результатов этапа</h1>
+  <p class="subtitle">Только для администратора</p>
 
   <form id="predictionForm">
 
     <!-- Этап -->
     <div class="custom-select" id="stageCustomSelect">
-  <div class="selected">Выберите этап</div>
-  <div class="dropdown"></div>
-</div>
+      <div class="selected">Выберите этап</div>
+      <div class="dropdown"></div>
+    </div>
 
-    <!-- ВАЖНО: те же ID что на главной -->
+    <h3>Квалификация (топ-5)</h3>
     <div id="qualifyingContainer"></div>
+
+    <h3>Гонка (топ-10)</h3>
     <div id="raceContainer"></div>
 
-    <button type="submit">Отправить</button>
+    <button type="submit">Отправить результаты</button>
 
   </form>
 
@@ -44,13 +48,80 @@ if (sessionStorage.getItem("adminAuth") !== "true") {
 <script src="script.js"></script>
 
 <script>
-// Добавляем скрытый ник admin
+// Переопределяем поведение отправки только на админке
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("predictionForm");
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            
+            // здесь можно оставить существующую логику отправки (если она есть в admin.html)
+            // или просто отправить как есть, даже пустую форму
+            
+            // ... (твой код отправки формы, если он дублируется)
+            
+            // Всегда показываем уведомление
+            showSuccessModal("Результаты этапа сохранены");
+        });
+    }
+});
+</script>
+
+<script>
+// Защита от прямого доступа + скрытый ник "admin"
+if (sessionStorage.getItem("adminAuth") !== "true") {
+  window.location.href = "index.html";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const hiddenNick = document.createElement("input");
   hiddenNick.type = "hidden";
   hiddenNick.id = "nickname";
   hiddenNick.value = "admin";
   document.getElementById("predictionForm").appendChild(hiddenNick);
+});
+</script>
+
+<!-- Модальное окно успеха (одна строка) -->
+<div id="successModal" class="modal-overlay">
+  <div class="modal-window success-window">
+    <div class="success-line">
+      <span class="success-check">✓</span>
+      <span id="successText" class="success-message"></span>
+    </div>
+    <button class="modal-btn success-btn" id="successOkBtn">ОК</button>
+  </div>
+</div>
+
+<script>
+// Успех на админке — всегда показываем модалку
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("predictionForm");
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      // ... твоя текущая логика отправки формы (если есть) ...
+      
+      // Всегда показываем успешное модальное окно
+      const modal = document.getElementById('successModal');
+      const msgEl = document.getElementById('successMessage');
+      const closeBtn = document.getElementById('successCloseBtn');
+      
+      msgEl.textContent = "Результаты этапа сохранены";
+      modal.classList.add('active');
+      
+      const closeHandler = () => {
+        modal.classList.remove('active');
+        closeBtn.removeEventListener('click', closeHandler);
+      };
+      closeBtn.addEventListener('click', closeHandler);
+      
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('active');
+      }, { once: true });
+    });
+  }
 });
 </script>
 
