@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
       div.innerHTML = `
         <div class="selected" data-default="${i} место">Выберите пилота</div>
         <div class="dropdown"></div>
-        <input type="hidden" name="квала_${i}">
+        <input type="hidden" name="Q${i}">
       `;
       qualiContainer.appendChild(div);
     }
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
       div.innerHTML = `
         <div class="selected" data-default="${i} место">Выберите пилота</div>
         <div class="dropdown"></div>
-        <input type="hidden" name="гонка_${i}">
+        <input type="hidden" name="R${i}">
       `;
       raceContainer.appendChild(div);
     }
