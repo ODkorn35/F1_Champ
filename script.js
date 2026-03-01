@@ -346,25 +346,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      const formData = new FormData(predictionForm);
-
-      const tempForm = document.createElement("form");
-      tempForm.method = "POST";
-      tempForm.action = "https://script.google.com/macros/s/AKfycbzDQzeYQN1uH8_BKiPrcaFgFHZCrHqcRQtqjpnu3MM7uEecc1L0kiUyXwVYs0w99_9t/exec";
-      tempForm.target = "hidden_iframe";
-
-      for (let [name, value] of formData) {
-        if (value) {
-          const input = document.createElement("input");
-          input.type = "hidden";
-          input.name = name;
-          input.value = value;
-          tempForm.appendChild(input);
-        }
-      }
-
-      document.body.appendChild(tempForm);
-      tempForm.submit();
+      
+      predictionForm.action = "https://script.google.com/macros/s/AKfycbzDQzeYQN1uH8_BKiPrcaFgFHZCrHqcRQtqjpnu3MM7uEecc1L0kiUyXwVYs0w99_9t/exec";
+predictionForm.method = "POST";
+predictionForm.submit();
       document.body.removeChild(tempForm);
 
       const isAdmin = document.body.classList.contains("admin-page");
