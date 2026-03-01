@@ -312,50 +312,30 @@ document.addEventListener("DOMContentLoaded", () => {
   // 6. Отправка формы
   const predictionForm = document.getElementById("predictionForm");
   if (predictionForm) {
-    predictionForm.addEventListener("submit", e => {
-      e.preventDefault();
+    predictionForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-      const nickname = document.getElementById("nickname")?.value?.trim();
-      const stage    = document.getElementById("stageHidden")?.value?.trim();
+  const formData = new FormData(predictionForm);
 
-      if (!document.body.classList.contains("admin-page")) {
-        if (!nickname || !stage) {
-          showValidationModal("Выберите никнейм и этап");
-          return;
-        }
-
-        let qualiFilled = true;
-        for (let i = 1; i <= 5; i++) {
-          if (!document.querySelector(`input[name="Q${i}"]`)?.value) {
-            qualiFilled = false;
-            break;
-          }
-        }
-
-        let raceFilled = true;
-        for (let i = 1; i <= 10; i++) {
-          if (!document.querySelector(`input[name="R${i}"]`)?.value) {
-            raceFilled = false;
-            break;
-          }
-        }
-
-        if (!qualiFilled || !raceFilled) {
-          showValidationModal("Заполните все позиции квалификации и гонки");
-          return;
-        }
+  try {
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycbzDQzeYQN1uH8_BKiPrcaFgFHZCrHqcRQtqjpnu3MM7uEecc1L0kiUyXwVYs0w99_9t/exec",
+      {
+        method: "POST",
+        body: formData
       }
+    );
 
-      
-      predictionForm.action = "https://script.google.com/macros/s/AKfycbzDQzeYQN1uH8_BKiPrcaFgFHZCrHqcRQtqjpnu3MM7uEecc1L0kiUyXwVYs0w99_9t/exec";
-      predictionForm.method = "POST";
-      predictionForm.submit();
-      
-      const isAdmin = document.body.classList.contains("admin-page");
-      showSuccessModal(isAdmin ? "Результаты этапа сохранены" : "Прогноз успешно отправлен");
+    const result = await response.text();
 
-      resetCustomSelects();
-    });
+    showSuccessModal("Прогноз успешно отправлен");
+    resetCustomSelects();
+
+  } catch (error) {
+    showValidationModal("Ошибка отправки. Попробуйте позже.");
+    console.error(error);
+  }
+});
   }
 
   // 7. Кнопка Admin
