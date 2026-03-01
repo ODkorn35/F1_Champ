@@ -310,34 +310,69 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 6. Отправка формы
-  // Собираем данные
-const formData = new FormData(predictionForm);
-const data = Object.fromEntries(formData);
+  const predictionForm = document.getElementById("predictionForm");
+  if (predictionForm) {
+    predictionForm.addEventListener("submit", e => {
+      e.preventDefault();
 
-// Добавляем никнейм админа, если это админ-страница
-if (document.body.classList.contains("admin-page")) {
-  data.nickname = "admin";
-}
+      const nickname = document.getElementById("nickname")?.value?.trim();
+      const stage    = document.getElementById("stageHidden")?.value?.trim();
 
-// Отправляем через fetch
-fetch("https://script.google.com/macros/s/AKfycbyDTfQoKDjg-bVoi99ASDJA1DSqKIpdlGmW1ecyldbjDIpfZPZRFMdoQkkkCdQlePwU/exec", {
-  method: "POST",
-  mode: "no-cors",  // важно для Google Apps Script
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify(data)
-})
-.then(() => {
-  // Успех
-  const isAdmin = document.body.classList.contains("admin-page");
-  showSuccessModal(isAdmin ? "Результаты этапа сохранены" : "Прогноз успешно отправлен");
-  resetCustomSelects();
-})
-.catch(err => {
-  console.error("Ошибка отправки:", err);
-  showValidationModal("Ошибка отправки. Попробуйте позже.");
-});
+      if (!document.body.classList.contains("admin-page")) {
+        if (!nickname || !stage) {
+          showValidationModal("Выберите никнейм и этап");
+          return;
+        }
+
+        let qualiFilled = true;
+        for (let i = 1; i <= 5; i++) {
+          if (!document.querySelector(`input[name="Q${i}"]`)?.value) {
+            qualiFilled = false;
+            break;
+          }
+        }
+
+        let raceFilled = true;
+        for (let i = 1; i <= 10; i++) {
+          if (!document.querySelector(`input[name="R${i}"]`)?.value) {
+            raceFilled = false;
+            break;
+          }
+        }
+
+        if (!qualiFilled || !raceFilled) {
+          showValidationModal("Заполните все позиции квалификации и гонки");
+          return;
+        }
+      }
+
+      const formData = new FormData(predictionForm);
+
+      const tempForm = document.createElement("form");
+      tempForm.method = "POST";
+      tempForm.action = "https://script.google.com/macros/s/AKfycbzDQzeYQN1uH8_BKiPrcaFgFHZCrHqcRQtqjpnu3MM7uEecc1L0kiUyXwVYs0w99_9t/exec";
+      tempForm.target = "hidden_iframe";
+
+      for (let [name, value] of formData) {
+        if (value) {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = name;
+          input.value = value;
+          tempForm.appendChild(input);
+        }
+      }
+
+      document.body.appendChild(tempForm);
+      tempForm.submit();
+      document.body.removeChild(tempForm);
+
+      const isAdmin = document.body.classList.contains("admin-page");
+      showSuccessModal(isAdmin ? "Результаты этапа сохранены" : "Прогноз успешно отправлен");
+
+      resetCustomSelects();
+    });
+  }
 
   // 7. Кнопка Admin
   const adminBtn = document.getElementById("adminBtn");
