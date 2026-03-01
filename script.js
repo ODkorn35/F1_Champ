@@ -348,10 +348,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       
       predictionForm.action = "https://script.google.com/macros/s/AKfycbzDQzeYQN1uH8_BKiPrcaFgFHZCrHqcRQtqjpnu3MM7uEecc1L0kiUyXwVYs0w99_9t/exec";
-predictionForm.method = "POST";
-predictionForm.submit();
-      document.body.removeChild(tempForm);
-
+      predictionForm.method = "POST";
+      predictionForm.submit();
+      
       const isAdmin = document.body.classList.contains("admin-page");
       showSuccessModal(isAdmin ? "Результаты этапа сохранены" : "Прогноз успешно отправлен");
 
