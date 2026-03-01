@@ -1,3 +1,5 @@
+const ICON_BASE_PATH = "images/icons/";
+
 // =====================================================
 // МОСКОВСКОЕ ВРЕМЯ (UTC+3)
 // =====================================================
@@ -226,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
       opt.className = "option";
       opt.dataset.value = driver;
       opt.innerHTML = `
-  <img src="images/${driverIcons[driver] || 'placeholder.png'}" class="driver-icon" alt="${driver}">
+  <img src="${ICON_BASE_PATH}${driverIcons[driver] || 'placeholder.png'}" class="driver-icon" alt="${driver}">
   ${driver}
 `;
       dropdown.appendChild(opt);
@@ -235,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.stopPropagation();
         hidden.value = driver;
         selected.innerHTML = `
-  <img src="images/${driverIcons[driver] || 'placeholder.png'}" class="driver-icon" alt="${driver}">
+  <img src="${ICON_BASE_PATH}${driverIcons[driver] || 'placeholder.png'}" class="driver-icon" alt="${driver}">
   ${driver}
 `;
         dropdown.classList.remove("open");

@@ -5,6 +5,7 @@
   <title>Личный зачет</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="fonts.css">
   <style>
     /* Дополнительное оформление таблицы */
     .results-table-wrapper {
@@ -44,13 +45,19 @@
   </style>
 </head>
 <body>
+
+  <!-- Блок кнопок -->
   <div class="top-btns-box">
-    <div class="top-btns">
-      <a href="index.html" class="home-btn">⌂</a>
-      <button id="adminBtn" class="admin-btn">Admin</button>
-      <a href="table.html" class="table-btn">Общий зачет</a>
-    </div>
+  <div class="top-btns">
+    <a href="index.html" class="home-btn f1-home-btn" title="На главную">
+      <img src="images/f1-logo.svg" alt="F1" class="f1-logo">
+    </a>
+
+    <a href="admin.html" id="adminBtn" class="top-link-btn admin-link">Admin</a>
+    <a href="table.html" class="top-link-btn table-link">Results</a>
   </div>
+</div>
+
   <div class="tables-vertical">
     <div class="results-table-wrapper">
       <h1>Личный зачет</h1>
