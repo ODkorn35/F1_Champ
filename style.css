@@ -444,3 +444,67 @@ table.results-table td:nth-child(2) {
   .results-table-wrapper { max-width: 95vw !important; }
 }
 
+/* Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 9999;
+}
+
+/* Active state */
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Modal window */
+.modal-window {
+  background: #111;
+  color: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  transform: translateY(-20px);
+  transition: transform 0.25s ease;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
+
+.modal-overlay.active .modal-window {
+  transform: translateY(0);
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.modal-text {
+  font-size: 16px;
+  margin-bottom: 25px;
+  opacity: 0.85;
+}
+
+.modal-btn {
+  background: #e10600;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.2s ease;
+}
+
+.modal-btn:hover {
+  background: #b80000;
+}

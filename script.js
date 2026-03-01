@@ -377,6 +377,30 @@ function showToast(message) {
     toast.classList.remove("show");
   }, 3000);
 }
+// ===============================
+// МОДАЛЬНОЕ УВЕДОМЛЕНИЕ
+// ===============================
+function showValidationModal(message) {
+
+  const modal = document.getElementById("validationModal");
+  const text = document.getElementById("modalMessage");
+  const closeBtn = document.getElementById("modalCloseBtn");
+
+  if (!modal) return;
+
+  text.textContent = message;
+  modal.classList.add("active");
+
+  function closeModal() {
+    modal.classList.remove("active");
+  }
+
+  closeBtn.onclick = closeModal;
+
+  modal.onclick = (e) => {
+    if (e.target === modal) closeModal();
+  };
+}
 
 // ===============================
 // ОТПРАВКА ФОРМЫ
@@ -405,12 +429,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const stage = document.getElementById("stageHidden")?.value || "";
 
     // Проверка только для обычных пользователей
-    if (!isAdminPage) {
-      if (!nickname || !stage) {
-        showToast("Заполните все обязательные поля");
-        return;
-      }
+    // Проверка заполненности (только для главной)
+if (!isAdminPage) {
+
+  if (!nickname || !stage) {
+    showValidationModal("Пожалуйста, заполните все поля перед отправкой.");
+    return;
+  }
+
+  // Проверяем пилотов квалификации (5)
+  for (let i = 1; i <= 5; i++) {
+    const input = document.querySelector(`input[name="Q${i}"]`);
+    if (!input || !input.value) {
+      showValidationModal("Пожалуйста, заполните все поля перед отправкой.");
+      return;
     }
+  }
+
+  // Проверяем пилотов гонки (10)
+  for (let i = 1; i <= 10; i++) {
+    const input = document.querySelector(`input[name="R${i}"]`);
+    if (!input || !input.value) {
+      showValidationModal("Пожалуйста, заполните все позиции квалификации и гонки.");
+      return;
+    }
+  }
+
+}
 
     const formData = new FormData();
     formData.append("nickname", nickname);
@@ -609,4 +654,5 @@ function updateDriverAvailability() {
   });
 
 }
+
 
