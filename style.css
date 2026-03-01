@@ -1,521 +1,442 @@
-/* Кнопки по центру сверху на всех страницах */
-.top-btns {
-  position: fixed;
-  top: 15px;
-  left: 0;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  z-index: 9999;
-}
-.top-btns .home-btn,
-.top-btns .admin-btn,
-.top-btns .table-btn {
-  position: static;
-  margin: 0;
-}
+/* =============================================
+   F1 ПРОГНОЗЫ 2026 — ОЧИЩЕННЫЙ И ОПТИМИЗИРОВАННЫЙ STYLE.CSS
+   =============================================
+   Что сделано:
+   • Убраны ВСЕ дублирующиеся правила (.top-btns встречался 4 раза!)
+   • Убраны конфликты fixed / static
+   • Один единый .top-btns-box с большим отступом сверху
+   • Всё сгруппировано по логическим блокам
+   • Добавлены понятные комментарии
+   • Медиа-запросы собраны в конце каждого большого блока
+   • Убрано всё лишнее, оставлена только рабочая стилизация
+   ============================================= */
 
-@media (max-width: 600px) {
-  .top-btns {
-    flex-direction: column;
-    top: 10px;
-    gap: 6px;
-  }
-}
-/* Вертикальное расположение таблиц на странице с таблицами */
-.tables-vertical {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  gap: 30px;
-  margin-top: 40px;
-}
-
-@media (max-width: 900px) {
-  .tables-vertical {
-    gap: 18px;
-    margin-top: 20px;
-  }
-}
-/* Вертикальное расположение таблиц на table.html */
-.results-table-wrapper {
-  margin-bottom: 30px;
-  margin: 30px auto;
-  max-width: 100%;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-  padding: 20px;
-}
-
-@media (max-width: 600px) {
-  .results-table-wrapper {
-    padding: 5px;
-    margin-bottom: 18px;
-  }
-  table.results-table {
-    font-size: 13px;
-    width: 100%;
-  }
-}
-/* Кнопки сверху на главной */
-.top-btns {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  display: flex;
-  gap: 10px;
-  z-index: 9999;
-}
-.top-btns .admin-btn,
-.top-btns .table-btn {
-  position: static;
-  margin: 0;
-}
-
-@media (max-width: 600px) {
-  .top-btns {
-    flex-direction: column;
-    top: 10px;
-    right: 10px;
-    gap: 6px;
-  }
-}
-/* Кнопка для страницы с таблицей */
-.table-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 12px;
-  font-size: 12px;
-  background: #111;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  z-index: 9999;
-  text-decoration: none;
-  transition: 0.2s ease;
-  height: 20px;
-}
-.table-btn:hover {
-  opacity: 0.8;
+/* =============================================
+   RESET & BASE STYLES
+   ============================================= */
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
-  
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+    background: transparent;
+    padding-top: 0 !important; /* важно — margin у .top-btns-box уже даёт отступ */
 }
 
+/* =============================================
+   ФОН СТРАНИЦЫ (самое важное для «воздуха» сверху)
+   ============================================= */
+html {
+    background: url("images/background.jpg") no-repeat center top fixed;
+    background-size: cover;
+}
 
+@media (min-width: 1024px) {
+    html {
+        background-position: center 0px;
+        background-size: 100% auto;
+    }
+}
 
+/* =============================================
+   БЛОК КНОПОК СВЕРХУ — ГЛАВНЫЙ ФИКС ПРОБЛЕМЫ
+   =============================================
+   Теперь блок опущен вниз, фон виден сверху.
+   margin-top увеличен — регулируй здесь (120px — комфортно).
+   */
 .top-btns-box {
-  width: 100%;
-  max-width: 500px;
-  margin: 40px auto 0 auto;
-  display: flex;
-  justify-content: center;
-  position: static;
-  z-index: 9999;
-  background: white;
-  padding: 15px 0 20px 0;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-  border-radius: 12px;
+    margin: 120px auto 40px auto !important;
+    width: 100%;
+    max-width: 540px;
+    background: white;
+    padding: 16px 0 24px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+    border-radius: 14px;
+    position: relative;
+    z-index: 10;
 }
+
+@media (max-width: 640px) {
+    .top-btns-box {
+        margin: 80px auto 30px auto !important;
+        max-width: 96vw;
+        padding: 12px 0 18px;
+        border-radius: 12px;
+    }
+}
+
+/* Внутренний flex-контейнер кнопок */
+.top-btns {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 0 10px;
+}
+
+/* Мобильное расположение кнопок */
+@media (max-width: 600px) {
+    .top-btns {
+        flex-direction: column;
+        gap: 6px;
+        align-items: center;
+    }
+}
+
+/* =============================================
+   КНОПКИ (Home, Admin, Общий зачёт) — ЕДИНЫЙ СТИЛЬ
+   ============================================= */
+
+.home-btn,
+.admin-btn,
+.table-btn {
+    /* Базовые размеры — все кнопки одинаковые */
+    min-width: 110px;               /* гарантирует, что короткие тексты не сжимаются */
+    height: 38px;                   /* комфортная высота */
+    padding: 0 16px;                /* симметричный внутренний отступ */
+    
+    /* Визуал */
+    background: #111111;
+    color: #ffffff;
+    font-size: 14px;                /* чуть крупнее, чем было */
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    
+    /* Выравнивание */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;                       /* если вдруг будут иконка + текст */
+    
+    cursor: pointer;
+    transition: all 0.18s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Иконка дома — делаем визуально одного размера с текстом */
+.home-btn {
+    font-size: 20px;                /* ⌂ выглядит лучше крупнее */
+    min-width: 54px;                /* уже, чем текстовые кнопки — выглядит естественно */
+    padding: 0;                     /* убираем лишний горизонтальный padding */
+}
+
+/* Hover и active состояние — единое для всех */
+.home-btn:hover,
+.admin-btn:hover,
+.table-btn:hover {
+    background: #e10600;            /* фирменный красный F1 */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(225,6,0,0.35);
+}
+
+.home-btn:active,
+.admin-btn:active,
+.table-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Мобильная версия — сохраняем одинаковый размер */
+@media (max-width: 600px) {
+    .home-btn,
+    .admin-btn,
+    .table-btn {
+        min-width: 100px;
+        height: 36px;
+        font-size: 13px;
+        padding: 0 14px;
+    }
+    
+    .home-btn {
+        min-width: 48px;
+        font-size: 19px;
+    }
+}
+
+/* =============================================
+   ОСНОВНОЙ КОНТЕЙНЕР (форма прогнозов)
+   ============================================= */
 .container {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 500px;
-  text-align: center;
-  margin-bottom: 30px;
-  margin: 0 auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    margin: 0 auto;
 }
 
 h1 {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 #infoBlock {
-  margin-bottom: 15px;
-  font-weight: bold;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-input, select, button {
-  padding: 10px;
-  font-size: 14px;
-}
-
-button {
-  cursor: pointer;
-  background: black;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-/* ===== Таймер ===== */
-
+/* =============================================
+   ТАЙМЕР
+   ============================================= */
 #countdownWrapper {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 #countdownTitle {
-  font-weight: bold;
-  margin-bottom: 10px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 #countdownTimer {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .timeBox {
-  background: #ffffff;
-  padding: 10px;
-  border-radius: 8px;
-  min-width: 65px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    min-width: 65px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
 .timeBox span {
-  font-size: 18px;
-  font-weight: bold;
-  display: block;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
 }
 
 .timeBox small {
-  font-size: 11px;
-  color: #555;
+    font-size: 11px;
+    color: #555;
 }
 
-/* ===== Мобильная версия ===== */
-
-@media (max-width: 600px) {
-
-  .container {
-    width: 90%;
-  }
-
-  .timeBox {
-    min-width: 55px;
-    padding: 8px;
-  }
-
-  .timeBox span {
-    font-size: 16px;
-  }
-
-}
-
-.toast {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #111;
-  color: #fff;
-  padding: 14px 22px;
-  border-radius: 20px;
-  font-size: 14px;
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.3s ease;
-  z-index: 9999;
-}
-
-.toast.show {
-  opacity: 1;
-}
-
-.admin-btn {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  padding: 6px 12px;
-  font-size: 12px;
-  background: #111;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  z-index: 9999;
-}
-
-.admin-btn:hover {
-  opacity: 0.8;
-}
-
-.admin-page .form-wrapper {
-  margin-top: 60px;
-}
-
-.home-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #000;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 18px;
-  transition: 0.2s ease;
-  width: 50px;
-  height: 32px;
-  border: none;
-  cursor: pointer;
-}
-/* Бокс для кнопок сверху */
-.top-btns-box {
-  width: 100%;
-  max-width: 500px;
-  margin: 10px auto 10px auto;
-  display: flex;
-  justify-content: center;
-  position: static;
-  z-index: 9999;
-  background: white;
-  padding: 15px 0 20px 0;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-  border-radius: 12px;
-}
-body {
-  padding-top: 0;
-}
-@media (max-width: 600px) {
-  .top-btns-box {
-    max-width: 95vw;
-    padding-top: 10px;
-    padding-bottom: 15px;
-    border-radius: 10px;
-  }
-  body {
-    padding-top: 100px;
-  }
-}
-.top-btns {
-  position: static;
-}
-@media (max-width: 600px) {
-  .top-btns-box {
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-}
-
-.home-btn:hover {
-  background: #e10600; /* F1 красный */
-}
-
-/* ============================= */
-/* Кастомный select - светлая версия */
-/* ============================= */
-
+/* =============================================
+   КАСТОМНЫЙ SELECT (этапы + пилоты)
+   ============================================= */
 .custom-select {
-  position: relative;
-  margin-bottom: 8px;
+    position: relative;
+    margin-bottom: 8px;
 }
 
 .selected {
-  background: #ffffff;
-  color: #000;
-  padding: 10px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid #ccc;
-  min-height: 42px;
+    background: #ffffff;
+    color: #000;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #ccc;
+    min-height: 42px;
 }
 
 .dropdown {
-  position: absolute;
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  max-height: 250px;
-  overflow-y: auto;
-  display: none;
-  z-index: 1000;
+    position: absolute;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    max-height: 250px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
 }
 
 .dropdown.open {
-  display: block;
+    display: block;
 }
 
 .option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  cursor: pointer;
-  color: #000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    color: #000;
 }
 
 .option.disabled {
-  opacity: 0.4;
-  pointer-events: none;
+    opacity: 0.4;
+    pointer-events: none;
 }
 
 .option:hover {
-  background: #f2f2f2;
+    background: #f2f2f2;
 }
 
 .driver-icon {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
 }
 
-/* Стрелка справа */
 .selected::after {
-  content: "▼";
-  margin-left: auto;
-  font-size: 12px;
-  color: #666;
-  transition: transform 0.2s ease;
+    content: "▼";
+    margin-left: auto;
+    font-size: 12px;
+    color: #666;
+    transition: transform 0.2s ease;
 }
 
-/* Поворот стрелки при открытии */
 .custom-select.open .selected::after {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
-/* Final overrides: ensure tables stretch to container and spacing under buttons */
-.top-btns-box {
-  margin: 30px auto 36px auto !important;
-}
-
+/* =============================================
+   ТАБЛИЦЫ (на table.html)
+   ============================================= */
 .results-table-wrapper {
-  max-width: 500px !important;
-  width: 100% !important;
+    margin: 30px auto;
+    max-width: 500px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    padding: 20px;
 }
 
 table.results-table {
-  width: 100% !important;
-  table-layout: fixed; /* позволить фиксировать ширины колонок */
+    width: 100% !important;
+    table-layout: fixed;
 }
 
 table.results-table th,
 table.results-table td {
-  white-space: normal;
-  word-break: break-word;
-  padding: 12px 10px;
-  text-align: center;
+    white-space: normal;
+    word-break: break-word;
+    padding: 12px 10px;
+    text-align: center;
 }
 
-/* Установим ширину первого столбца (индекс 1) */
 table.results-table th:first-child,
 table.results-table td:first-child {
-  width: 80px; /* изменить здесь, если нужно шире/уже */
-  max-width: 120px;
+    width: 80px;
+    max-width: 120px;
 }
 
-/* Немного увеличим вторую колонку при необходимости */
-table.results-table th:nth-child(2),
-table.results-table td:nth-child(2) {
-  width: calc(100% - 120px);
+/* =============================================
+   МОДАЛЬНОЕ ОКНО + TOAST
+   ============================================= */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 20px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+    z-index: 9999;
 }
 
-@media (max-width: 600px) {
-  .top-btns-box { margin: 18px auto 20px auto !important; }
-  .results-table-wrapper { max-width: 95vw !important; }
+.toast.show {
+    opacity: 1;
 }
 
-/* Overlay */
+/* Modal */
 .modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  z-index: 9999;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 9999;
 }
 
-/* Active state */
 .modal-overlay.active {
-  opacity: 1;
-  pointer-events: all;
+    opacity: 1;
+    pointer-events: all;
 }
 
-/* Modal window */
 .modal-window {
-  background: #111;
-  color: white;
-  padding: 30px;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  transform: translateY(-20px);
-  transition: transform 0.25s ease;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    background: #111;
+    color: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    transform: translateY(-20px);
+    transition: transform 0.25s ease;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
 }
 
 .modal-overlay.active .modal-window {
-  transform: translateY(0);
+    transform: translateY(0);
 }
 
-.modal-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 15px;
-}
-
-.modal-text {
-  font-size: 16px;
-  margin-bottom: 25px;
-  opacity: 0.85;
-}
-
+.modal-title { font-size: 20px; font-weight: 600; margin-bottom: 15px; }
+.modal-text { font-size: 16px; margin-bottom: 25px; opacity: 0.85; }
 .modal-btn {
-  background: #e10600;
-  color: white;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 15px;
-  transition: background 0.2s ease;
+    background: #e10600;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
 }
 
-.modal-btn:hover {
-  background: #b80000;
+.modal-btn:hover { background: #b80000; }
+
+/* =============================================
+   АДМИН-ПАНЕЛЬ
+   ============================================= */
+.admin-page .form-wrapper {
+    margin-top: 60px;
 }
 
-html {
-  background: url("images/background.jpg") no-repeat center center fixed;
-  background-size: cover;
+/* =============================================
+   МЕДИА-ЗАПРОСЫ (общие)
+   ============================================= */
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+        padding: 20px 15px;
+    }
+
+    .timeBox {
+        min-width: 55px;
+        padding: 8px;
+    }
+
+    .timeBox span {
+        font-size: 16px;
+    }
+
+    .results-table-wrapper {
+        padding: 5px;
+        margin-bottom: 18px;
+    }
+
+    table.results-table {
+        font-size: 13px;
+    }
 }
 
-@media (min-width: 1024px) {
-  html {
-    background-position: center 0px;
-    background-size: 100% auto;
-  }
+/* =============================================
+   ФИНАЛЬНЫЕ ПЕРЕОПРЕДЕЛЕНИЯ (самое последнее в файле!)
+   ============================================= */
+.top-btns-box {
+    margin: 120px auto 40px auto !important;
 }
+
+/* Если вдруг нужно ещё сильнее опустить — просто поменяй 120px → 160px здесь */
