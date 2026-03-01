@@ -330,11 +330,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Проверка только для обычных пользователей
     if (!isAdminPage) {
-      if (!nickname || !stage) {
-        showToast("Заполните все обязательные поля");
-        return;
-      }
+
+  if (!nickname || !stage) {
+    showToast("Заполните никнейм и этап");
+    return;
+  }
+
+  // Проверка квалификации (5 мест)
+  for (let i = 1; i <= 5; i++) {
+    const input = document.querySelector(`input[name="Q${i}"]`);
+    if (!input || !input.value) {
+      showToast("Заполните все позиции квалификации");
+      return;
     }
+  }
+
+  // Проверка гонки (10 мест)
+  for (let i = 1; i <= 10; i++) {
+    const input = document.querySelector(`input[name="R${i}"]`);
+    if (!input || !input.value) {
+      showToast("Заполните все позиции гонки");
+      return;
+    }
+  }
+
+}
 
     const formData = new FormData();
     formData.append("nickname", nickname);
