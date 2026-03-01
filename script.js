@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
       div.innerHTML = `
         <div class="selected" data-default="${i} место">Выберите пилота</div>
         <div class="dropdown"></div>
-        <input type="hidden" name="Q${i}">
+        <input type="hidden" name="квала_${i}">
       `;
       qualiContainer.appendChild(div);
     }
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
       div.innerHTML = `
         <div class="selected" data-default="${i} место">Выберите пилота</div>
         <div class="dropdown"></div>
-        <input type="hidden" name="R${i}">
+        <input type="hidden" name="гонка_${i}">
       `;
       raceContainer.appendChild(div);
     }
@@ -346,9 +346,25 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      predictionForm.action = "https://script.google.com/macros/s/AKfycbzDQzeYQN1uH8_BKiPrcaFgFHZCrHqcRQtqjpnu3MM7uEecc1L0kiUyXwVYs0w99_9t/exec";
-predictionForm.method = "POST";
-predictionForm.submit();
+      const formData = new FormData(predictionForm);
+
+      const tempForm = document.createElement("form");
+      tempForm.method = "POST";
+      tempForm.action = "https://script.google.com/macros/s/AKfycbzDQzeYQN1uH8_BKiPrcaFgFHZCrHqcRQtqjpnu3MM7uEecc1L0kiUyXwVYs0w99_9t/exec";
+      tempForm.target = "hidden_iframe";
+
+      for (let [name, value] of formData) {
+        if (value) {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = name;
+          input.value = value;
+          tempForm.appendChild(input);
+        }
+      }
+
+      document.body.appendChild(tempForm);
+      tempForm.submit();
       document.body.removeChild(tempForm);
 
       const isAdmin = document.body.classList.contains("admin-page");
