@@ -1,5 +1,3 @@
-const ICON_BASE_PATH = "images/icons/";
-
 // =====================================================
 // МОСКОВСКОЕ ВРЕМЯ (UTC+3)
 // =====================================================
@@ -13,30 +11,30 @@ function getMoscowDate() {
 // КАЛЕНДАРЬ 2026
 // =====================================================
 const calendar = [
-  { name: "1. Австралия", start: "03-08", startTime: "15:00", showFrom: "02-20", showUntil: "03-08" },
-  { name: "2. Китай", start: "03-15", startTime: "15:00", showFrom: "03-09", showUntil: "03-15" },
-  { name: "3. Япония", start: "03-29", startTime: "14:00", showFrom: "03-16", showUntil: "03-29" },
-  { name: "4. Бахрейн", start: "04-12", startTime: "18:00", showFrom: "03-30", showUntil: "04-12" },
-  { name: "5. Саудовская Аравия", start: "04-19", startTime: "20:00", showFrom: "04-13", showUntil: "04-19" },
-  { name: "6. Майами", start: "05-03", startTime: "16:00", showFrom: "04-20", showUntil: "05-03" },
-  { name: "7. Канада", start: "05-24", startTime: "16:00", showFrom: "05-04", showUntil: "05-24" },
-  { name: "8. Монако", start: "06-07", startTime: "15:00", showFrom: "05-25", showUntil: "06-07" },
-  { name: "9. Барселона", start: "06-14", startTime: "15:00", showFrom: "06-08", showUntil: "06-14" },
-  { name: "10. Австрия", start: "06-28", startTime: "15:00", showFrom: "06-15", showUntil: "06-28" },
-  { name: "11. Великобритания", start: "07-05", startTime: "15:00", showFrom: "06-29", showUntil: "07-05" },
-  { name: "12. Бельгия", start: "07-19", startTime: "15:00", showFrom: "07-06", showUntil: "07-19" },
-  { name: "13. Венгрия", start: "07-26", startTime: "15:00", showFrom: "07-20", showUntil: "07-26" },
-  { name: "14. Нидерланды", start: "08-23", startTime: "15:00", showFrom: "07-27", showUntil: "08-23" },
-  { name: "15. Италия", start: "09-06", startTime: "15:00", showFrom: "08-24", showUntil: "09-06" },
-  { name: "16. Испания", start: "09-13", startTime: "15:00", showFrom: "09-07", showUntil: "09-13" },
-  { name: "17. Азербайджан", start: "09-26", startTime: "15:00", showFrom: "09-14", showUntil: "09-26" },
-  { name: "18. Сингапур", start: "10-11", startTime: "20:00", showFrom: "09-27", showUntil: "10-11" },
-  { name: "19. США", start: "10-25", startTime: "15:00", showFrom: "10-12", showUntil: "10-25" },
-  { name: "20. Мексика", start: "11-01", startTime: "14:00", showFrom: "10-26", showUntil: "11-01" },
-  { name: "21. Бразилия", start: "11-08", startTime: "14:00", showFrom: "11-02", showUntil: "11-08" },
-  { name: "22. Лас-Вегас", start: "11-21", startTime: "20:00", showFrom: "11-09", showUntil: "11-21" },
-  { name: "23. Катар", start: "11-29", startTime: "19:00", showFrom: "11-23", showUntil: "11-29" },
-  { name: "24. Абу-Даби", start: "12-06", startTime: "17:00", showFrom: "11-30", showUntil: "12-06" }
+  { name:"1. Австралия", start:"03-08", startTime:"15:00", showFrom:"02-20", showUntil:"03-08" },
+  { name:"2. Китай", start:"03-15", startTime:"15:00", showFrom:"03-09", showUntil:"03-15" },
+  { name:"3. Япония", start:"03-29", startTime:"14:00", showFrom:"03-16", showUntil:"03-29" },
+  { name:"4. Бахрейн", start:"04-12", startTime:"18:00", showFrom:"03-30", showUntil:"04-12" },
+  { name:"5. Саудовская Аравия", start:"04-19", startTime:"20:00", showFrom:"04-13", showUntil:"04-19" },
+  { name:"6. Майами", start:"05-03", startTime:"16:00", showFrom:"04-20", showUntil:"05-03" },
+  { name:"7. Канада", start:"05-24", startTime:"16:00", showFrom:"05-04", showUntil:"05-24" },
+  { name:"8. Монако", start:"06-07", startTime:"15:00", showFrom:"05-25", showUntil:"06-07" },
+  { name:"9. Барселона", start:"06-14", startTime:"15:00", showFrom:"06-08", showUntil:"06-14" },
+  { name:"10. Австрия", start:"06-28", startTime:"15:00", showFrom:"06-15", showUntil:"06-28" },
+  { name:"11. Великобритания", start:"07-05", startTime:"15:00", showFrom:"06-29", showUntil:"07-05" },
+  { name:"12. Бельгия", start:"07-19", startTime:"15:00", showFrom:"07-06", showUntil:"07-19" },
+  { name:"13. Венгрия", start:"07-26", startTime:"15:00", showFrom:"07-20", showUntil:"07-26" },
+  { name:"14. Нидерланды", start:"08-23", startTime:"15:00", showFrom:"07-27", showUntil:"08-23" },
+  { name:"15. Италия", start:"09-06", startTime:"15:00", showFrom:"08-24", showUntil:"09-06" },
+  { name:"16. Испания", start:"09-13", startTime:"15:00", showFrom:"09-07", showUntil:"09-13" },
+  { name:"17. Азербайджан", start:"09-26", startTime:"15:00", showFrom:"09-14", showUntil:"09-26" },
+  { name:"18. Сингапур", start:"10-11", startTime:"20:00", showFrom:"09-27", showUntil:"10-11" },
+  { name:"19. США", start:"10-25", startTime:"15:00", showFrom:"10-12", showUntil:"10-25" },
+  { name:"20. Мексика", start:"11-01", startTime:"14:00", showFrom:"10-26", showUntil:"11-01" },
+  { name:"21. Бразилия", start:"11-08", startTime:"14:00", showFrom:"11-02", showUntil:"11-08" },
+  { name:"22. Лас-Вегас", start:"11-21", startTime:"20:00", showFrom:"11-09", showUntil:"11-21" },
+  { name:"23. Катар", start:"11-29", startTime:"19:00", showFrom:"11-23", showUntil:"11-29" },
+  { name:"24. Абу-Даби", start:"12-06", startTime:"17:00", showFrom:"11-30", showUntil:"12-06" }
 ];
 
 // =====================================================
@@ -53,7 +51,7 @@ const driverIcons = {
   "Норрис": "mclaren.png", "Пиастри": "mclaren.png",
   "Расселл": "mercedes.png", "Антонелли": "mercedes.png",
   "Ферстаппен": "redbull.png", "Хаджар": "redbull.png",
-  "Леклер": "ferari.png", "Хэмилтон": "ferari.png",
+  "Леклер": "ferrari.png", "Хэмилтон": "ferrari.png",
   "Албон": "williams.png", "Сайнс": "williams.png",
   "Лоусон": "vcarb.png", "Линдблад": "vcarb.png",
   "Алонсо": "aston.png", "Стролл": "aston.png",
@@ -97,42 +95,40 @@ function showValidationModal(message) {
 }
 
 // =====================================================
-// ОСНОВНАЯ ЛОГИКА (DOMContentLoaded)
+// ОСНОВНАЯ ЛОГИКА
 // =====================================================
 document.addEventListener("DOMContentLoaded", () => {
 
-  // 1. Никнейм
+  // Никнейм
   const nicknameSelect = document.getElementById("nicknameSelect");
   if (nicknameSelect) {
     const selected = nicknameSelect.querySelector(".selected");
     const dropdown = nicknameSelect.querySelector(".dropdown");
-    const hidden   = document.getElementById("nickname");
+    const hidden = document.getElementById("nickname");
 
-    if (selected && dropdown && hidden) {
-      selected.addEventListener("click", () => {
-        dropdown.classList.toggle("open");
-        nicknameSelect.classList.toggle("open");
-      });
+    selected.addEventListener("click", () => {
+      dropdown.classList.toggle("open");
+      nicknameSelect.classList.toggle("open");
+    });
 
-      dropdown.querySelectorAll(".option").forEach(opt => {
-        opt.addEventListener("click", () => {
-          hidden.value = opt.dataset.value;
-          selected.textContent = opt.textContent;
-          dropdown.classList.remove("open");
-          nicknameSelect.classList.remove("open");
-        });
+    dropdown.querySelectorAll(".option").forEach(opt => {
+      opt.addEventListener("click", () => {
+        hidden.value = opt.dataset.value;
+        selected.textContent = opt.textContent;
+        dropdown.classList.remove("open");
+        nicknameSelect.classList.remove("open");
       });
+    });
 
-      document.addEventListener("click", e => {
-        if (!nicknameSelect.contains(e.target)) {
-          dropdown.classList.remove("open");
-          nicknameSelect.classList.remove("open");
-        }
-      });
-    }
+    document.addEventListener("click", e => {
+      if (!nicknameSelect.contains(e.target)) {
+        dropdown.classList.remove("open");
+        nicknameSelect.classList.remove("open");
+      }
+    });
   }
 
-  // 2. Выбор этапа
+  // Этап
   const stageCustom = document.getElementById("stageCustomSelect");
   if (stageCustom) {
     const selected = stageCustom.querySelector(".selected");
@@ -148,45 +144,41 @@ document.addEventListener("DOMContentLoaded", () => {
       if (form) form.appendChild(stageHidden);
     }
 
-    if (selected && dropdown) {
-      calendar.forEach(stage => {
-        const opt = document.createElement("div");
-        opt.className = "option";
-        opt.dataset.value = stage.name;
-        opt.textContent = stage.name;
-        dropdown.appendChild(opt);
+    calendar.forEach(stage => {
+      const opt = document.createElement("div");
+      opt.className = "option";
+      opt.dataset.value = stage.name;
+      opt.textContent = stage.name;
+      dropdown.appendChild(opt);
 
-        opt.addEventListener("click", () => {
-          selected.textContent = stage.name;
-          stageHidden.value = stage.name;
-          dropdown.classList.remove("open");
-          stageCustom.classList.remove("open");
-        });
+      opt.addEventListener("click", () => {
+        selected.textContent = stage.name;
+        stageHidden.value = stage.name;
+        dropdown.classList.remove("open");
+        stageCustom.classList.remove("open");
       });
+    });
 
-      selected.addEventListener("click", () => {
-        dropdown.classList.toggle("open");
-        stageCustom.classList.toggle("open");
-      });
+    selected.addEventListener("click", () => {
+      dropdown.classList.toggle("open");
+      stageCustom.classList.toggle("open");
+    });
 
-      document.addEventListener("click", e => {
-        if (!stageCustom.contains(e.target)) {
-          dropdown.classList.remove("open");
-          stageCustom.classList.remove("open");
-        }
-      });
-    }
+    document.addEventListener("click", e => {
+      if (!stageCustom.contains(e.target)) {
+        dropdown.classList.remove("open");
+        stageCustom.classList.remove("open");
+      }
+    });
   }
 
-  // 3. Поля квалификации и гонки
+  // Поля квалификации и гонки
   const qualiContainer = document.getElementById("qualifyingContainer");
-  const raceContainer  = document.getElementById("raceContainer");
+  const raceContainer = document.getElementById("raceContainer");
 
-  // Очищаем на всякий случай
   if (qualiContainer) qualiContainer.innerHTML = "";
-  if (raceContainer)  raceContainer.innerHTML = "";
+  if (raceContainer) raceContainer.innerHTML = "";
 
-  // Создаём поля квалификации
   if (qualiContainer) {
     for (let i = 1; i <= 5; i++) {
       const div = document.createElement("div");
@@ -200,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Создаём поля гонки
   if (raceContainer) {
     for (let i = 1; i <= 10; i++) {
       const div = document.createElement("div");
@@ -214,72 +205,63 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 4. Заполняем все селекты пилотами и вешаем обработчики
+  // Заполнение пилотами
   document.querySelectorAll(".driver-select").forEach(select => {
     const selected = select.querySelector(".selected");
     const dropdown = select.querySelector(".dropdown");
-    const hidden   = select.querySelector('input[type="hidden"]');
+    const hidden = select.querySelector('input[type="hidden"]');
 
     if (!selected || !dropdown || !hidden) return;
 
-    // Заполняем опциями
     drivers.forEach(driver => {
       const opt = document.createElement("div");
       opt.className = "option";
       opt.dataset.value = driver;
       opt.innerHTML = `
-  <img src="${ICON_BASE_PATH}${driverIcons[driver] || 'placeholder.png'}" class="driver-icon" alt="${driver}">
-  ${driver}
-`;
+        <img src="images/icons/${driverIcons[driver]}" class="driver-icon" alt="${driver}">
+        ${driver}
+      `;
       dropdown.appendChild(opt);
 
       opt.addEventListener("click", e => {
-        e.stopPropagation();
+        if (opt.classList.contains("disabled")) return;
+
         hidden.value = driver;
         selected.innerHTML = `
-  <img src="${ICON_BASE_PATH}${driverIcons[driver] || 'placeholder.png'}" class="driver-icon" alt="${driver}">
-  ${driver}
-`;
+          <img src="images/icons/${driverIcons[driver]}" class="driver-icon" alt="${driver}">
+          ${driver}
+        `;
         dropdown.classList.remove("open");
         select.classList.remove("open");
         updateDriverAvailability();
       });
     });
 
-    // Открытие/закрытие
     selected.addEventListener("click", e => {
       e.stopPropagation();
-      const isOpen = select.classList.contains("open");
-
-      // Закрываем все остальные
       document.querySelectorAll(".driver-select.open").forEach(s => {
         if (s !== select) s.classList.remove("open");
       });
-
       select.classList.toggle("open");
     });
   });
 
-  // Закрытие по клику вне
   document.addEventListener("click", e => {
     if (!e.target.closest(".driver-select")) {
       document.querySelectorAll(".driver-select.open").forEach(s => s.classList.remove("open"));
     }
   });
 
-  // 5. Функции блокировки дублей и очистки
   function updateDriverAvailability() {
     const qualiInputs = document.querySelectorAll('input[name^="Q"]');
     const selectedQuali = Array.from(qualiInputs).map(inp => inp.value).filter(v => v);
 
     qualiInputs.forEach(inp => {
       const wrapper = inp.closest(".driver-select");
-      if (wrapper) {
-        wrapper.querySelectorAll(".option").forEach(opt => {
-          const val = opt.dataset.value;
-          opt.classList.toggle("disabled", selectedQuali.includes(val) && inp.value !== val);
-        });
-      }
+      wrapper.querySelectorAll(".option").forEach(opt => {
+        const val = opt.dataset.value;
+        opt.classList.toggle("disabled", selectedQuali.includes(val) && inp.value !== val);
+      });
     });
 
     const raceInputs = document.querySelectorAll('input[name^="R"]');
@@ -287,12 +269,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     raceInputs.forEach(inp => {
       const wrapper = inp.closest(".driver-select");
-      if (wrapper) {
-        wrapper.querySelectorAll(".option").forEach(opt => {
-          const val = opt.dataset.value;
-          opt.classList.toggle("disabled", selectedRace.includes(val) && inp.value !== val);
-        });
-      }
+      wrapper.querySelectorAll(".option").forEach(opt => {
+        const val = opt.dataset.value;
+        opt.classList.toggle("disabled", selectedRace.includes(val) && inp.value !== val);
+      });
     });
   }
 
@@ -309,36 +289,76 @@ document.addEventListener("DOMContentLoaded", () => {
     updateDriverAvailability();
   }
 
-  // 6. Отправка формы
+  // =====================================================
+  // ОТПРАВКА ФОРМЫ — БЕРЁМ РАБОЧИЙ КОД ИЗ СТАРОЙ ВЕРСИИ
+  // =====================================================
   const predictionForm = document.getElementById("predictionForm");
   if (predictionForm) {
-    predictionForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+    predictionForm.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-  const formData = new FormData(predictionForm);
+      const isAdminPage = document.body.classList.contains("admin-page");
+      const nickname = document.getElementById("nickname")?.value || "";
+      const stage = document.getElementById("stageHidden")?.value || "";
 
-  try {
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbzDQzeYQN1uH8_BKiPrcaFgFHZCrHqcRQtqjpnu3MM7uEecc1L0kiUyXwVYs0w99_9t/exec",
-      {
-        method: "POST",
-        body: formData
+      if (!isAdminPage) {
+        if (!nickname || !stage) {
+          showValidationModal("Пожалуйста, заполните все поля перед отправкой.");
+          return;
+        }
+
+        for (let i = 1; i <= 5; i++) {
+          if (!document.querySelector(`input[name="Q${i}"]`)?.value) {
+            showValidationModal("Заполните все позиции квалификации и гонки.");
+            return;
+          }
+        }
+        for (let i = 1; i <= 10; i++) {
+          if (!document.querySelector(`input[name="R${i}"]`)?.value) {
+            showValidationModal("Заполните все позиции квалификации и гонки.");
+            return;
+          }
+        }
       }
-    );
 
-    const result = await response.text();
+      // === РАБОЧИЙ МЕХАНИЗМ ОТПРАВКИ ИЗ СТАРОЙ ВЕРСИИ ===
+      const formData = new FormData();
+      formData.append("nickname", isAdminPage ? "admin" : nickname);
+      formData.append("stage", stage);
 
-    showSuccessModal("Прогноз успешно отправлен");
-    resetCustomSelects();
+      for (let i = 1; i <= 5; i++) {
+        const val = document.querySelector(`input[name="Q${i}"]`)?.value;
+        if (val) formData.append(`квала_${i}`, val);
+      }
+      for (let i = 1; i <= 10; i++) {
+        const val = document.querySelector(`input[name="R${i}"]`)?.value;
+        if (val) formData.append(`гонка_${i}`, val);
+      }
 
-  } catch (error) {
-    showValidationModal("Ошибка отправки. Попробуйте позже.");
-    console.error(error);
+      const tempForm = document.createElement("form");
+      tempForm.method = "POST";
+      tempForm.action = "https://script.google.com/macros/s/AKfycbyDTfQoKDjg-bVoi99ASDJA1DSqKIpdlGmW1ecyldbjDIpfZPZRFMdoQkkkCdQlePwU/exec";
+      tempForm.target = "hidden_iframe";
+
+      for (let pair of formData.entries()) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = pair[0];
+        input.value = pair[1];
+        tempForm.appendChild(input);
+      }
+
+      document.body.appendChild(tempForm);
+      tempForm.submit();
+      document.body.removeChild(tempForm);
+
+      // Успех
+      showSuccessModal(isAdminPage ? "Результаты этапа сохранены" : "Прогноз успешно отправлен");
+      resetCustomSelects();
+    });
   }
-});
-  }
 
-  // 7. Кнопка Admin
+  // Admin кнопка
   const adminBtn = document.getElementById("adminBtn");
   if (adminBtn) {
     adminBtn.addEventListener("click", () => {
@@ -352,86 +372,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Запуск таймера сразу и каждую секунду
-  if (document.getElementById("countdownTimer")) {
+  // Таймер
+  if (typeof updateCountdown === "function") {
     updateCountdown();
     setInterval(updateCountdown, 1000);
   }
 });
-
-function updateCountdown() {
-  const now = getMoscowDate();
-
-  let nextStage = null;
-  let minDiff = Infinity;
-  let stageStart = null;  // ← объявляем заранее
-
-  calendar.forEach(stage => {
-    const [startMonth, startDay] = stage.start.split('-').map(Number);
-    const [startHour, startMinute] = stage.startTime.split(':').map(Number);
-
-    let year = now.getFullYear();
-    let currentStart = new Date(year, startMonth - 1, startDay, startHour, startMinute, 0);
-
-    if (currentStart < now) {
-      currentStart.setFullYear(year + 1);
-    }
-
-    const diff = currentStart - now;
-    if (diff > 0 && diff < minDiff) {
-      minDiff = diff;
-      nextStage = stage;
-      stageStart = currentStart;  // ← сохраняем дату начала ближайшего этапа
-    }
-  });
-
-  if (!nextStage || !stageStart) {
-    document.getElementById("countdownTitle").textContent = "Сезон завершён";
-    setZero();
-    return;
-  }
-
-  // Форматируем даты в ДД.ММ.ГГ
-  const formatDate = (date) => {
-    const dd = String(date.getDate()).padStart(2, '0');
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const yy = String(date.getFullYear()).slice(-2);
-    return `${dd}.${mm}.${yy}`;
-  };
-
-  const startDateFormatted = formatDate(stageStart);
-
-  // Дата конца — +1 день (или твоя логика, если есть точная дата окончания)
-  const endDate = new Date(stageStart);
-  endDate.setDate(endDate.getDate() + 1); // ← можно изменить на реальную дату конца этапа
-  const endDateFormatted = formatDate(endDate);
-
-  // Выводим в нужном формате
-  document.getElementById("countdownTitle").innerHTML = 
-    `Следующий этап: ${nextStage.name}<br>` +
-    `${startDateFormatted} — ${endDateFormatted}<br>` +
-    `<span>Старт — ${nextStage.startTime} (мск)</span>`;
-
-  // Остаток времени
-  let diff = minDiff / 1000;
-  const days = Math.floor(diff / (3600 * 24));
-  diff %= 3600 * 24;
-  const hours = Math.floor(diff / 3600);
-  diff %= 3600;
-  const minutes = Math.floor(diff / 60);
-  const seconds = Math.floor(diff % 60);
-
-  document.getElementById("days").textContent = days.toString().padStart(2, '0');
-  document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
-  document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
-  document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
-}
-
-// Функция обнуления (если нужно)
-function setZero() {
-  document.getElementById("days").textContent = "00";
-  document.getElementById("hours").textContent = "00";
-  document.getElementById("minutes").textContent = "00";
-  document.getElementById("seconds").textContent = "00";
-}
-
