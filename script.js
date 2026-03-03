@@ -51,7 +51,7 @@ const driverIcons = {
   "Норрис": "mclaren.png", "Пиастри": "mclaren.png",
   "Расселл": "mercedes.png", "Антонелли": "mercedes.png",
   "Ферстаппен": "redbull.png", "Хаджар": "redbull.png",
-  "Леклер": "ferrari.png", "Хэмилтон": "ferrari.png",
+  "Леклер": "ferari.png", "Хэмилтон": "ferari.png",
   "Албон": "williams.png", "Сайнс": "williams.png",
   "Лоусон": "vcarb.png", "Линдблад": "vcarb.png",
   "Алонсо": "aston.png", "Стролл": "aston.png",
