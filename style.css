@@ -1,45 +1,85 @@
 /* =============================================
-   F1 ПРОГНОЗЫ 2026 — ОПТИМИЗИРОВАННЫЙ STYLE.CSS
-   Последняя правка: бокс с кнопками + минималистичные кнопки
+   F1 ПРОГНОЗЫ 2026 — ПОЛНЫЙ ОПТИМИЗИРОВАННЫЙ STYLE.CSS
+   Фон фиксирован, контент прокручивается поверх него
+   Последняя правка: компактный бокс, жирный текст, отступы
    ============================================= */
 
-html, body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+/* =============================================
+   ФИКСИРОВАННЫЙ ФОН + НОРМАЛЬНАЯ ПРОКРУТКА
+   ============================================= */
+
+/* =============================================
+   ФИКСИРОВАННЫЙ ФОН — ВЕРХ ПО ВЕРТИКАЛИ
+   ============================================= */
+
+html {
+    height: 100%;
 }
 
 body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    position: relative;
     background: transparent;
+    overflow-y: auto;
 }
 
-/* Фон страницы */
-html {
-    background: url("images/background.jpg") no-repeat center top fixed;
+/* Фон фиксирован через псевдоэлемент */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: url("images/background.jpg") no-repeat center top;  /* ← ВЕРХ по вертикали */
     background-size: cover;
+    background-attachment: fixed;
 }
 
-@media (min-width: 1024px) {
-    html {
-        background-position: center 0;
-        background-size: 100% auto;
+/* На мобильных отключаем fixed, чтобы избежать дёрганий */
+@media (max-width: 1023px) {
+    body::before {
+        background-attachment: scroll;
+        background-position: center top;   /* ← тоже верх */
+        background-size: cover;
     }
 }
 
-/* =============================================
-   ВЕРХНИЙ БОКС С КНОПКАМИ — уменьшенная высота, центрирование
-   ============================================= */
+/* Контент поверх фона */
+.container,
+.top-btns-box,
+#countdownWrapper,
+form,
+.results-table-wrapper,
+.modal-overlay {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+}
 
+/* Защита от белого низа — растягиваем страницу */
+body {
+    min-height: 100vh;
+}
+
+/* Если страница короткая — фон всё равно покрывает экран */
+html, body {
+    height: 100%;
+}
+
+/* =============================================
+   ВЕРХНИЙ БОКС С КНОПКАМИ — компактный, центрированный
+   ============================================= */
 .top-btns-box {
     width: 100%;
-    max-width: 550px;                    /* чуть шире, чтобы кнопки не жались */
-    margin: 160px auto 40px auto;        /* опускаем ниже — было 120px, стало 160px */
+    max-width: 580px;
+    margin: 160px auto 40px auto;        /* большой отступ сверху, чтобы фон виден */
     background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(10px);
     border-radius: 14px;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
-    padding: 1px 0;                     /* уменьшили высоту: было 16–24px, стало 12px сверху/снизу */
+    padding: 12px 0;                     /* уменьшенная высота */
     position: relative;
     z-index: 10;
 }
@@ -48,18 +88,21 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 32px;                           /* расстояние между кнопками — чуть больше */
+    gap: 32px;
     flex-wrap: wrap;
 }
 
-/* Логотип F1 в кнопке "Домой" */
+/* Кнопка "Домой" — чистый логотип */
 .f1-home-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 52px;
     height: 52px;
-    background: transparent !important;
-    border: none !important;
     padding: 0;
     margin: 0;
+    background: transparent !important;
+    border: none !important;
     cursor: pointer;
 }
 
@@ -82,8 +125,8 @@ html {
     padding: 0 !important;
     margin: 0 !important;
     font-family: 'HGB Grotesk', system-ui, sans-serif;
-    font-weight: 700;                    /* жирный текст — было 600, стало 700 */
-    font-size: 15.5px;                   /* чуть крупнее для жирного начертания */
+    font-weight: 700;                    /* жирный текст */
+    font-size: 15.5px;
     letter-spacing: 0.5px;
     color: #E10600 !important;
     text-decoration: none;
@@ -92,13 +135,13 @@ html {
 }
 
 .top-link-btn:hover {
-    color: #F5C518 !important;           /* золотой */
+    color: #F5C518 !important;           /* золотой при наведении */
 }
 
 /* Мобильная версия */
 @media (max-width: 640px) {
     .top-btns-box {
-        margin: 100px auto 30px auto;    /* меньше отступ сверху на мобильных */
+        margin: 100px auto 30px auto;
         max-width: 94vw;
         padding: 10px 0;
         border-radius: 12px;
@@ -106,9 +149,6 @@ html {
 
     .top-btns {
         gap: 20px;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
     }
 
     .top-link-btn {
@@ -117,35 +157,52 @@ html {
 }
 
 /* =============================================
-   ОСНОВНОЙ КОНТЕЙНЕР
+   ОСНОВНОЙ КОНТЕЙНЕР — прокручивается поверх фона
    ============================================= */
 .container {
-    background: white;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     width: 100%;
     max-width: 500px;
-    margin: 0 auto 40px;
+    margin: 20px auto 40px;
     text-align: center;
 }
 
-h1 {
-    margin-bottom: 15px;
-    font-size: 28px;
-}
-
-.subtitle {
-    color: #666;
-    margin-bottom: 30px;
-}
-
 /* Таймер */
+#countdownWrapper {
+    position: relative;
+    z-index: 1;
+    margin: 20px 0;
+}
+
+#countdownTitle {
+    font-family: 'HGB Grotesk', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #111;
+    text-align: center;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+}
+
+#countdownTitle span {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #666;
+    margin-top: 4px;
+}
+
 #countdownTimer {
     display: flex;
     justify-content: center;
     gap: 8px;
-    margin: 20px 0;
+    flex-wrap: wrap;
 }
 
 .timeBox {
@@ -168,7 +225,7 @@ h1 {
     color: #555;
 }
 
-/* Кастомные селекты (ник, этап, пилоты) */
+/* Кастомные селекты */
 .custom-select {
     position: relative;
     margin-bottom: 12px;
@@ -239,6 +296,7 @@ h1 {
 .option.disabled {
     opacity: 0.45;
     cursor: not-allowed;
+    pointer-events: none;
 }
 
 .driver-icon {
@@ -356,7 +414,7 @@ button[type="submit"]:hover {
     color: white;
 }
 
-/* Медиа */
+/* Медиа-запросы */
 @media (max-width: 600px) {
     .container {
         padding: 20px 15px;
@@ -378,23 +436,4 @@ button[type="submit"]:hover {
     .results-table {
         font-size: 13px;
     }
-}
-
-.container h3,
-#countdownTitle {
-  font-family: 'HGB Grotesk', system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 20px;
-  color: #111;
-  text-align: center;
-  margin: 0 0 12px 0;
-  line-height: 1.4;
-}
-
-#countdownTitle span {
-  display: block;
-  font-size: 16px;
-  font-weight: 500;
-  color: #666;
-  margin-top: 4px;
 }
