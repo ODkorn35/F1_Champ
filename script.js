@@ -358,7 +358,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // =====================================================
   // Admin кнопка
+  // =====================================================
   const adminBtn = document.getElementById("adminBtn");
   if (adminBtn) {
     adminBtn.addEventListener("click", () => {
@@ -372,9 +374,87 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Таймер
-  if (typeof updateCountdown === "function") {
+  // =====================================================
+  // ТАЙМЕР
+  // =====================================================
+  if (document.getElementById("countdownTimer")) {
     updateCountdown();
     setInterval(updateCountdown, 1000);
   }
 });
+
+function updateCountdown() {
+  const now = getMoscowDate();
+
+  let nextStage = null;
+  let minDiff = Infinity;
+  let stageStart = null;  // ← объявляем заранее
+
+  calendar.forEach(stage => {
+    const [startMonth, startDay] = stage.start.split('-').map(Number);
+    const [startHour, startMinute] = stage.startTime.split(':').map(Number);
+
+    let year = now.getFullYear();
+    let currentStart = new Date(year, startMonth - 1, startDay, startHour, startMinute, 0);
+
+    if (currentStart < now) {
+      currentStart.setFullYear(year + 1);
+    }
+
+    const diff = currentStart - now;
+    if (diff > 0 && diff < minDiff) {
+      minDiff = diff;
+      nextStage = stage;
+      stageStart = currentStart;  // ← сохраняем дату начала ближайшего этапа
+    }
+  });
+
+  if (!nextStage || !stageStart) {
+    document.getElementById("countdownTitle").textContent = "Сезон завершён";
+    setZero();
+    return;
+  }
+
+  // Форматируем даты в ДД.ММ.ГГ
+  const formatDate = (date) => {
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const yy = String(date.getFullYear()).slice(-2);
+    return `${dd}.${mm}.${yy}`;
+  };
+
+  const startDateFormatted = formatDate(stageStart);
+
+  // Дата конца — +1 день (или твоя логика, если есть точная дата окончания)
+  const endDate = new Date(stageStart);
+  endDate.setDate(endDate.getDate() + 1); // ← можно изменить на реальную дату конца этапа
+  const endDateFormatted = formatDate(endDate);
+
+  // Выводим в нужном формате
+  document.getElementById("countdownTitle").innerHTML = 
+    `Следующий этап: ${nextStage.name}<br>` +
+    `${startDateFormatted} — ${endDateFormatted}<br>` +
+    `<span>Старт — ${nextStage.startTime} (мск)</span>`;
+
+  // Остаток времени
+  let diff = minDiff / 1000;
+  const days = Math.floor(diff / (3600 * 24));
+  diff %= 3600 * 24;
+  const hours = Math.floor(diff / 3600);
+  diff %= 3600;
+  const minutes = Math.floor(diff / 60);
+  const seconds = Math.floor(diff % 60);
+
+  document.getElementById("days").textContent = days.toString().padStart(2, '0');
+  document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+  document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+  document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+}
+
+// Функция обнуления (если нужно)
+function setZero() {
+  document.getElementById("days").textContent = "00";
+  document.getElementById("hours").textContent = "00";
+  document.getElementById("minutes").textContent = "00";
+  document.getElementById("seconds").textContent = "00";
+}
