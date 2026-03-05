@@ -5,6 +5,7 @@
   <title>F1 Прогнозы 2026</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="fonts.css">
 </head>
 
 <iframe name="hidden_iframe" style="display:none;"></iframe>
@@ -14,9 +15,12 @@
 
 <div class="top-btns-box">
   <div class="top-btns">
-    <a href="index.html" class="home-btn">⌂</a>
-    <button id="adminBtn" class="admin-btn">Admin</button>
-    <a href="table.html" class="table-btn">Общий зачет</a>
+    <a href="index.html" class="home-btn f1-home-btn" title="На главную">
+      <img src="images/f1-logo.svg" alt="F1" class="f1-logo">
+    </a>
+
+    <a href="admin.html" id="adminBtn" class="top-link-btn admin-link">Admin</a>
+    <a href="table.html" class="top-link-btn table-link">Results</a>
   </div>
 </div>
 
@@ -77,6 +81,7 @@
     <div class="option" data-value="loan">loan</div>
     <div class="option" data-value="macs">Macs</div>
     <div class="option" data-value="tutorial">Tutorial</div>
+    <div class="option" data-value="tutorial">!TEST! не выбирать!!!</div>
   </div>
 </div>
 
@@ -105,6 +110,28 @@
 
 <!-- Toast сообщение -->
 <div id="toast" class="toast"></div>
+
+<!-- Модальное окно успеха (одна строка) -->
+<div id="successModal" class="modal-overlay">
+  <div class="modal-window success-window">
+    <div class="success-line">
+      <span class="success-check">✓</span>
+      <span id="successText" class="success-message"></span>
+    </div>
+    <button class="modal-btn success-btn" id="successOkBtn">ОК</button>
+  </div>
+</div>
+
+<!-- Модальное окно ошибки (валидация) -->
+<div id="validationModal" class="modal-overlay">
+  <div class="modal-window validation-window">
+    <div class="success-line">
+      <span class="success-check" style="color:#f44336;">✕</span>
+      <span id="validationText" class="success-message"></span>
+    </div>
+    <button class="modal-btn" id="validationCloseBtn" style="background:#f44336;">Понятно</button>
+  </div>
+</div>
 
 </body>
 </html>
