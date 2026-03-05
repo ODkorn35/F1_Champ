@@ -337,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const tempForm = document.createElement("form");
       tempForm.method = "POST";
-      tempForm.action = "https://script.google.com/macros/s/AKfycbyDTfQoKDjg-bVoi99ASDJA1DSqKIpdlGmW1ecyldbjDIpfZPZRFMdoQkkkCdQlePwU/exec";
+      tempForm.action = "https://script.google.com/macros/s/AKfycbzDQzeYQN1uH8_BKiPrcaFgFHZCrHqcRQtqjpnu3MM7uEecc1L0kiUyXwVYs0w99_9t/exec";
       tempForm.target = "hidden_iframe";
 
       for (let pair of formData.entries()) {
