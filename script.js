@@ -51,7 +51,7 @@ const driverIcons = {
   "Норрис": "mclaren.png", "Пиастри": "mclaren.png",
   "Расселл": "mercedes.png", "Антонелли": "mercedes.png",
   "Ферстаппен": "redbull.png", "Хаджар": "redbull.png",
-  "Леклер": "ferrari.png", "Хэмилтон": "ferrari.png",
+  "Леклер": "ferari.png", "Хэмилтон": "ferari.png",
   "Албон": "williams.png", "Сайнс": "williams.png",
   "Лоусон": "vcarb.png", "Линдблад": "vcarb.png",
   "Алонсо": "aston.png", "Стролл": "aston.png",
@@ -337,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const tempForm = document.createElement("form");
       tempForm.method = "POST";
-      tempForm.action = "https://script.google.com/macros/s/AKfycbzDQzeYQN1uH8_BKiPrcaFgFHZCrHqcRQtqjpnu3MM7uEecc1L0kiUyXwVYs0w99_9t/exec";
+      tempForm.action = "https://script.google.com/macros/s/AKfycbyDTfQoKDjg-bVoi99ASDJA1DSqKIpdlGmW1ecyldbjDIpfZPZRFMdoQkkkCdQlePwU/exec";
       tempForm.target = "hidden_iframe";
 
       for (let pair of formData.entries()) {
@@ -358,9 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // =====================================================
   // Admin кнопка
-  // =====================================================
   const adminBtn = document.getElementById("adminBtn");
   if (adminBtn) {
     adminBtn.addEventListener("click", () => {
@@ -374,10 +372,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // =====================================================
-  // ТАЙМЕР
-  // =====================================================
-  if (document.getElementById("countdownTimer")) {
+  // Таймер
+   if (document.getElementById("countdownTimer")) {
     updateCountdown();
     setInterval(updateCountdown, 1000);
   }
@@ -458,3 +454,4 @@ function setZero() {
   document.getElementById("minutes").textContent = "00";
   document.getElementById("seconds").textContent = "00";
 }
+
