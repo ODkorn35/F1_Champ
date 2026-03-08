@@ -61,6 +61,15 @@ const driverIcons = {
   "Боттас": "cadillac.png", "Перес": "cadillac.png"
 };
 
+const stageIcons = {
+  "1. Австралия": "AUS(1).gif", "2. Китай": "CHN.gif", "3. Япония": "JPN.gif", "4. Бахрейн": "BAH.gif",
+  "5. Саудовская Аравия": "Flag_of_Saudi_Arabia-2.gif", "6. Майами": "USA(1).gif", "7. Канада": "CAN.gif", "8. Монако": "MON.gif",
+  "9. Барселона": "ESP.gif", "10. Австрия": "ATR.gif", "11. Великобритания": "GBR.gif", "12. Бельгия": "BEL.gif",
+  "13. Венгрия": "HUN(1).gif", "14. Нидерланды": "NDL.gif", "15. Италия": "ITA.gif", "16. Испания": "ESP.gif",
+  "17. Азербайджан": "AZB(2).gif", "18. Сингапур": "SGP.gif", "19. США": "USA(1).gif", "20. Мексика": "MEX(2).gif",
+  "21. Бразилия": "BRA.gif", "22. Лас-Вегас": "USA(1).gif", "23. Катар": "qatar.gif", "24. Абу-Даби": "UAE.gif"
+};
+
 // =====================================================
 // МОДАЛЬНЫЕ ОКНА
 // =====================================================
@@ -145,14 +154,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     calendar.forEach(stage => {
+      const iconFile = stageIcons[stage.name] || "name.gif";
       const opt = document.createElement("div");
       opt.className = "option";
       opt.dataset.value = stage.name;
-      opt.textContent = stage.name;
+      opt.innerHTML = `
+        <img src="images/country/${iconFile}" class="stage-icon" alt="${stage.name}">
+        ${stage.name}
+      `;
       dropdown.appendChild(opt);
 
       opt.addEventListener("click", () => {
-        selected.textContent = stage.name;
+        selected.innerHTML = `
+          <img src="images/country/${iconFile}" class="stage-icon" alt="${stage.name}">
+          ${stage.name}
+        `;
         stageHidden.value = stage.name;
         dropdown.classList.remove("open");
         stageCustom.classList.remove("open");
