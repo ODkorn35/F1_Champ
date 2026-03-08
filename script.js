@@ -11,8 +11,8 @@ function getMoscowDate() {
 // КАЛЕНДАРЬ 2026
 // =====================================================
 const calendar = [
-  { name:"1. Австралия", start:"03-08", startTime:"15:00", showFrom:"02-20", showUntil:"03-08" },
-  { name:"2. Китай", start:"03-15", startTime:"15:00", showFrom:"03-09", showUntil:"03-15" },
+  { name:"1. Австралия", start:"03-08", startTime:"8:00", showFrom:"02-20", showUntil:"03-08" },
+  { name:"2. Китай", start:"03-15", startTime:"10:00", showFrom:"03-09", showUntil:"03-15" },
   { name:"3. Япония", start:"03-29", startTime:"14:00", showFrom:"03-16", showUntil:"03-29" },
   { name:"4. Бахрейн", start:"04-12", startTime:"18:00", showFrom:"03-30", showUntil:"04-12" },
   { name:"5. Саудовская Аравия", start:"04-19", startTime:"20:00", showFrom:"04-13", showUntil:"04-19" },
@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const div = document.createElement("div");
       div.className = "custom-select driver-select";
       div.innerHTML = `
-        <div class="selected" data-default="${i} место">Выберите пилота</div>
+        <div class="selected" data-default="${i} место">${i} место</div>
         <div class="dropdown"></div>
         <input type="hidden" name="Q${i}">
       `;
@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const div = document.createElement("div");
       div.className = "custom-select driver-select";
       div.innerHTML = `
-        <div class="selected" data-default="${i} место">Выберите пилота</div>
+        <div class="selected" data-default="${i} место">${i} место</div>
         <div class="dropdown"></div>
         <input type="hidden" name="R${i}">
       `;
@@ -373,7 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Таймер
-   if (document.getElementById("countdownTimer")) {
+ if (document.getElementById("countdownTimer")) {
     updateCountdown();
     setInterval(updateCountdown, 1000);
   }
@@ -381,35 +381,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function updateCountdown() {
   const now = getMoscowDate();
-
-  let nextStage = null;
-  let minDiff = Infinity;
-  let stageStart = null;  // ← объявляем заранее
+  const raceDurationMs = 2 * 60 * 60 * 1000;
+  const yearsToCheck = [now.getFullYear() - 1, now.getFullYear(), now.getFullYear() + 1];
+  const stageCandidates = [];
 
   calendar.forEach(stage => {
     const [startMonth, startDay] = stage.start.split('-').map(Number);
     const [startHour, startMinute] = stage.startTime.split(':').map(Number);
 
-    let year = now.getFullYear();
-    let currentStart = new Date(year, startMonth - 1, startDay, startHour, startMinute, 0);
-
-    if (currentStart < now) {
-      currentStart.setFullYear(year + 1);
-    }
-
-    const diff = currentStart - now;
-    if (diff > 0 && diff < minDiff) {
-      minDiff = diff;
-      nextStage = stage;
-      stageStart = currentStart;  // ← сохраняем дату начала ближайшего этапа
-    }
+    yearsToCheck.forEach(year => {
+      stageCandidates.push({
+        stage,
+        start: new Date(year, startMonth - 1, startDay, startHour, startMinute, 0)
+      });
+    });
   });
 
-  if (!nextStage || !stageStart) {
+  const activeRace = stageCandidates
+    .filter(item => now >= item.start && now < new Date(item.start.getTime() + raceDurationMs))
+    .sort((a, b) => b.start - a.start)[0];
+
+  const upcomingStage = stageCandidates
+    .filter(item => item.start > now)
+    .sort((a, b) => a.start - b.start)[0];
+
+  if (!activeRace && !upcomingStage) {
     document.getElementById("countdownTitle").textContent = "Сезон завершён";
     setZero();
     return;
   }
+
+  const stageForHeader = activeRace ? activeRace : upcomingStage;
+  const stageStart = stageForHeader.start;
+  const stageData = stageForHeader.stage;
+  const isRaceRunning = Boolean(activeRace);
 
   // Форматируем даты в ДД.ММ.ГГ
   const formatDate = (date) => {
@@ -419,21 +424,34 @@ function updateCountdown() {
     return `${dd}.${mm}.${yy}`;
   };
 
-  const startDateFormatted = formatDate(stageStart);
+  const endDateFormatted = formatDate(stageStart);
+  const startDate = new Date(stageStart);
+  startDate.setDate(startDate.getDate() - 2);
+  const startDateFormatted = formatDate(startDate);
 
-  // Дата конца — +1 день (или твоя логика, если есть точная дата окончания)
-  const endDate = new Date(stageStart);
-  endDate.setDate(endDate.getDate() + 1); // ← можно изменить на реальную дату конца этапа
-  const endDateFormatted = formatDate(endDate);
+  const firstStageName = calendar[0]?.name || "";
+  const interseasonUntil = new Date(stageStart.getFullYear(), 1, 28, 23, 59, 59);
+  const isInterseason = !isRaceRunning && stageData.name === firstStageName && now < interseasonUntil;
+  const titleText = isInterseason
+    ? "Межсезонье"
+    : `Следующий этап: ${stageData.name}`;
+  const statusText = isRaceRunning
+    ? "Идет заезд"
+    : `Старт — ${stageData.startTime} (мск)`;
 
   // Выводим в нужном формате
-  document.getElementById("countdownTitle").innerHTML = 
-    `Следующий этап: ${nextStage.name}<br>` +
+  document.getElementById("countdownTitle").innerHTML =
+    `${titleText}<br>` +
     `${startDateFormatted} — ${endDateFormatted}<br>` +
-    `<span>Старт — ${nextStage.startTime} (мск)</span>`;
+    `<span>${statusText}</span>`;
+
+  if (isRaceRunning) {
+    setZero();
+    return;
+  }
 
   // Остаток времени
-  let diff = minDiff / 1000;
+  let diff = (upcomingStage.start - now) / 1000;
   const days = Math.floor(diff / (3600 * 24));
   diff %= 3600 * 24;
   const hours = Math.floor(diff / 3600);
@@ -454,4 +472,3 @@ function setZero() {
   document.getElementById("minutes").textContent = "00";
   document.getElementById("seconds").textContent = "00";
 }
-
