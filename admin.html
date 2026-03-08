@@ -2,14 +2,13 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>F1 Admin — Ввод результатов</title>
+  <title>F1 Admin - Ввод результатов</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="fonts.css">
 </head>
-<body>
+<body class="admin-page">
 
-<!-- Тот же блок кнопок, что на главной -->
 <div class="top-btns-box">
   <div class="top-btns">
     <a href="index.html" class="home-btn f1-home-btn" title="На главную">
@@ -21,15 +20,11 @@
   </div>
 </div>
 
-<!-- Основной контейнер — такой же, как на index.html -->
 <div class="container admin-container">
-
   <h1>Ввод результатов этапа</h1>
   <p class="subtitle">Только для администратора</p>
 
   <form id="predictionForm">
-
-    <!-- Этап -->
     <div class="custom-select" id="stageCustomSelect">
       <div class="selected">Выберите этап</div>
       <div class="dropdown"></div>
@@ -42,9 +37,7 @@
     <div id="raceContainer"></div>
 
     <button type="submit">Отправить результаты</button>
-
   </form>
-
 </div>
 
 <iframe name="hidden_iframe" style="display:none;"></iframe>
@@ -53,41 +46,23 @@
 <script src="script.js"></script>
 
 <script>
-// Переопределяем поведение отправки только на админке
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("predictionForm");
-    if (form) {
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-            
-            // здесь можно оставить существующую логику отправки (если она есть в admin.html)
-            // или просто отправить как есть, даже пустую форму
-            
-            // ... (твой код отправки формы, если он дублируется)
-            
-            // Всегда показываем уведомление
-            showSuccessModal("Результаты этапа сохранены");
-        });
-    }
-});
-</script>
-
-<script>
-// Защита от прямого доступа + скрытый ник "admin"
 if (sessionStorage.getItem("adminAuth") !== "true") {
   window.location.href = "index.html";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("predictionForm");
+  if (!form || document.getElementById("nickname")) return;
+
   const hiddenNick = document.createElement("input");
   hiddenNick.type = "hidden";
   hiddenNick.id = "nickname";
+  hiddenNick.name = "nickname";
   hiddenNick.value = "admin";
-  document.getElementById("predictionForm").appendChild(hiddenNick);
+  form.appendChild(hiddenNick);
 });
 </script>
 
-<!-- Модальное окно успеха (одна строка) -->
 <div id="successModal" class="modal-overlay">
   <div class="modal-window success-window">
     <div class="success-line">
@@ -97,38 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
     <button class="modal-btn success-btn" id="successOkBtn">ОК</button>
   </div>
 </div>
-
-<script>
-// Успех на админке — всегда показываем модалку
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("predictionForm");
-  if (form) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      
-      // ... твоя текущая логика отправки формы (если есть) ...
-      
-      // Всегда показываем успешное модальное окно
-      const modal = document.getElementById('successModal');
-      const msgEl = document.getElementById('successMessage');
-      const closeBtn = document.getElementById('successCloseBtn');
-      
-      msgEl.textContent = "Результаты этапа сохранены";
-      modal.classList.add('active');
-      
-      const closeHandler = () => {
-        modal.classList.remove('active');
-        closeBtn.removeEventListener('click', closeHandler);
-      };
-      closeBtn.addEventListener('click', closeHandler);
-      
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('active');
-      }, { once: true });
-    });
-  }
-});
-</script>
 
 </body>
 </html>
