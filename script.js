@@ -11,30 +11,30 @@ function getMoscowDate() {
 // КАЛЕНДАРЬ 2026
 // =====================================================
 const calendar = [
-  { name:"1. Австралия", start:"03-08", startTime:"15:00", showFrom:"02-20", showUntil:"03-08" },
-  { name:"2. Китай", start:"03-15", startTime:"15:00", showFrom:"03-09", showUntil:"03-15" },
-  { name:"3. Япония", start:"03-29", startTime:"14:00", showFrom:"03-16", showUntil:"03-29" },
-  { name:"4. Бахрейн", start:"04-12", startTime:"18:00", showFrom:"03-30", showUntil:"04-12" },
-  { name:"5. Саудовская Аравия", start:"04-19", startTime:"20:00", showFrom:"04-13", showUntil:"04-19" },
-  { name:"6. Майами", start:"05-03", startTime:"16:00", showFrom:"04-20", showUntil:"05-03" },
-  { name:"7. Канада", start:"05-24", startTime:"16:00", showFrom:"05-04", showUntil:"05-24" },
-  { name:"8. Монако", start:"06-07", startTime:"15:00", showFrom:"05-25", showUntil:"06-07" },
-  { name:"9. Барселона", start:"06-14", startTime:"15:00", showFrom:"06-08", showUntil:"06-14" },
-  { name:"10. Австрия", start:"06-28", startTime:"15:00", showFrom:"06-15", showUntil:"06-28" },
-  { name:"11. Великобритания", start:"07-05", startTime:"15:00", showFrom:"06-29", showUntil:"07-05" },
-  { name:"12. Бельгия", start:"07-19", startTime:"15:00", showFrom:"07-06", showUntil:"07-19" },
-  { name:"13. Венгрия", start:"07-26", startTime:"15:00", showFrom:"07-20", showUntil:"07-26" },
-  { name:"14. Нидерланды", start:"08-23", startTime:"15:00", showFrom:"07-27", showUntil:"08-23" },
-  { name:"15. Италия", start:"09-06", startTime:"15:00", showFrom:"08-24", showUntil:"09-06" },
-  { name:"16. Испания", start:"09-13", startTime:"15:00", showFrom:"09-07", showUntil:"09-13" },
-  { name:"17. Азербайджан", start:"09-26", startTime:"15:00", showFrom:"09-14", showUntil:"09-26" },
-  { name:"18. Сингапур", start:"10-11", startTime:"20:00", showFrom:"09-27", showUntil:"10-11" },
-  { name:"19. США", start:"10-25", startTime:"15:00", showFrom:"10-12", showUntil:"10-25" },
-  { name:"20. Мексика", start:"11-01", startTime:"14:00", showFrom:"10-26", showUntil:"11-01" },
-  { name:"21. Бразилия", start:"11-08", startTime:"14:00", showFrom:"11-02", showUntil:"11-08" },
-  { name:"22. Лас-Вегас", start:"11-21", startTime:"20:00", showFrom:"11-09", showUntil:"11-21" },
+  { name:"1. Австралия", start:"03-08", startTime:"8:00", showFrom:"02-20", showUntil:"03-08" },
+  { name:"2. Китай", start:"03-15", startTime:"10:00", showFrom:"03-09", showUntil:"03-15" },
+  { name:"3. Япония", start:"03-29", startTime:"07:50", showFrom:"03-16", showUntil:"03-29" },
+  { name:"4. Бахрейн", start:"10-04", startTime:"10:00", showFrom:"09-28", showUntil:"10-04" },
+  { name:"5. Саудовская Аравия (ЭТАП ОТМЕНЕН)", start:"04-19", startTime:"20:00", showFrom:"03-30", showUntil:"03-30" },
+  { name:"6. Майами", start:"05-03", startTime:"23:00", showFrom:"04-01", showUntil:"05-03" },
+  { name:"7. Канада", start:"05-24", startTime:"23:00", showFrom:"05-04", showUntil:"05-24" },
+  { name:"8. Монако", start:"06-07", startTime:"16:00", showFrom:"05-25", showUntil:"06-07" },
+  { name:"9. Барселона", start:"06-14", startTime:"16:00", showFrom:"06-08", showUntil:"06-14" },
+  { name:"10. Австрия", start:"06-28", startTime:"16:00", showFrom:"06-15", showUntil:"06-28" },
+  { name:"11. Великобритания", start:"07-05", startTime:"17:00", showFrom:"06-29", showUntil:"07-05" },
+  { name:"12. Бельгия", start:"07-19", startTime:"16:00", showFrom:"07-06", showUntil:"07-19" },
+  { name:"13. Венгрия", start:"07-26", startTime:"16:00", showFrom:"07-20", showUntil:"07-26" },
+  { name:"14. Нидерланды", start:"08-23", startTime:"16:00", showFrom:"07-27", showUntil:"08-23" },
+  { name:"15. Италия", start:"09-06", startTime:"16:00", showFrom:"08-24", showUntil:"09-06" },
+  { name:"16. Испания", start:"09-13", startTime:"16:00", showFrom:"09-07", showUntil:"09-13" },
+  { name:"17. Азербайджан", start:"09-26", startTime:"14:00", showFrom:"09-14", showUntil:"09-26" },
+  { name:"18. Сингапур", start:"10-11", startTime:"15:00", showFrom:"09-27", showUntil:"10-11" },
+  { name:"19. США", start:"10-25", startTime:"23:00", showFrom:"10-12", showUntil:"10-25" },
+  { name:"20. Мексика", start:"11-01", startTime:"23:00", showFrom:"10-26", showUntil:"11-01" },
+  { name:"21. Бразилия", start:"11-08", startTime:"20:00", showFrom:"11-02", showUntil:"11-08" },
+  { name:"22. Лас-Вегас", start:"11-21", startTime:"07:00", showFrom:"11-09", showUntil:"11-21" },
   { name:"23. Катар", start:"11-29", startTime:"19:00", showFrom:"11-23", showUntil:"11-29" },
-  { name:"24. Абу-Даби", start:"12-06", startTime:"17:00", showFrom:"11-30", showUntil:"12-06" }
+  { name:"24. Абу-Даби", start:"12-06", startTime:"16:00", showFrom:"11-30", showUntil:"12-06" }
 ];
 
 // =====================================================
@@ -51,7 +51,7 @@ const driverIcons = {
   "Норрис": "mclaren.png", "Пиастри": "mclaren.png",
   "Расселл": "mercedes.png", "Антонелли": "mercedes.png",
   "Ферстаппен": "redbull.png", "Хаджар": "redbull.png",
-  "Леклер": "ferrari.png", "Хэмилтон": "ferrari.png",
+  "Леклер": "ferari.png", "Хэмилтон": "ferari.png",
   "Албон": "williams.png", "Сайнс": "williams.png",
   "Лоусон": "vcarb.png", "Линдблад": "vcarb.png",
   "Алонсо": "aston.png", "Стролл": "aston.png",
@@ -59,6 +59,15 @@ const driverIcons = {
   "Хюлькенберг": "audi.png", "Бортолето": "audi.png",
   "Гасли": "alpine.png", "Колапинто": "alpine.png",
   "Боттас": "cadillac.png", "Перес": "cadillac.png"
+};
+
+const stageIcons = {
+  "1. Австралия": "AUS(1).gif", "2. Китай": "CHN.gif", "3. Япония": "JPN.gif", "4. Бахрейн": "BAH.gif",
+  "5. Саудовская Аравия (ЭТАП ОТМЕНЕН)": "Flag_of_Saudi_Arabia-2.gif", "6. Майами": "USA(1).gif", "7. Канада": "CAN.gif", "8. Монако": "MON.gif",
+  "9. Барселона": "ESP.gif", "10. Австрия": "ATR.gif", "11. Великобритания": "GBR.gif", "12. Бельгия": "BEL.gif",
+  "13. Венгрия": "HUN(1).gif", "14. Нидерланды": "NDL.gif", "15. Италия": "ITA.gif", "16. Испания": "ESP.gif",
+  "17. Азербайджан": "AZB(2).gif", "18. Сингапур": "SGP.gif", "19. США": "USA(1).gif", "20. Мексика": "MEX(2).gif",
+  "21. Бразилия": "BRA.gif", "22. Лас-Вегас": "USA(1).gif", "23. Катар": "qatar.gif", "24. Абу-Даби": "UAE.gif"
 };
 
 // =====================================================
@@ -145,14 +154,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     calendar.forEach(stage => {
+      const iconFile = stageIcons[stage.name] || "name.gif";
       const opt = document.createElement("div");
       opt.className = "option";
       opt.dataset.value = stage.name;
-      opt.textContent = stage.name;
+      opt.innerHTML = `
+        <img src="images/country/${iconFile}" class="stage-icon" alt="${stage.name}">
+        ${stage.name}
+      `;
       dropdown.appendChild(opt);
 
       opt.addEventListener("click", () => {
-        selected.textContent = stage.name;
+        selected.innerHTML = `
+          <img src="images/country/${iconFile}" class="stage-icon" alt="${stage.name}">
+          ${stage.name}
+        `;
         stageHidden.value = stage.name;
         dropdown.classList.remove("open");
         stageCustom.classList.remove("open");
@@ -184,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const div = document.createElement("div");
       div.className = "custom-select driver-select";
       div.innerHTML = `
-        <div class="selected" data-default="${i} место">Выберите пилота</div>
+        <div class="selected" data-default="${i} место">${i} место</div>
         <div class="dropdown"></div>
         <input type="hidden" name="Q${i}">
       `;
@@ -197,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const div = document.createElement("div");
       div.className = "custom-select driver-select";
       div.innerHTML = `
-        <div class="selected" data-default="${i} место">Выберите пилота</div>
+        <div class="selected" data-default="${i} место">${i} место</div>
         <div class="dropdown"></div>
         <input type="hidden" name="R${i}">
       `;
@@ -358,9 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // =====================================================
   // Admin кнопка
-  // =====================================================
   const adminBtn = document.getElementById("adminBtn");
   if (adminBtn) {
     adminBtn.addEventListener("click", () => {
@@ -374,10 +388,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // =====================================================
-  // ТАЙМЕР
-  // =====================================================
-  if (document.getElementById("countdownTimer")) {
+  // Таймер
+ if (document.getElementById("countdownTimer")) {
     updateCountdown();
     setInterval(updateCountdown, 1000);
   }
@@ -385,35 +397,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function updateCountdown() {
   const now = getMoscowDate();
-
-  let nextStage = null;
-  let minDiff = Infinity;
-  let stageStart = null;  // ← объявляем заранее
+  const raceDurationMs = 2 * 60 * 60 * 1000;
+  const yearsToCheck = [now.getFullYear() - 1, now.getFullYear(), now.getFullYear() + 1];
+  const stageCandidates = [];
 
   calendar.forEach(stage => {
     const [startMonth, startDay] = stage.start.split('-').map(Number);
     const [startHour, startMinute] = stage.startTime.split(':').map(Number);
 
-    let year = now.getFullYear();
-    let currentStart = new Date(year, startMonth - 1, startDay, startHour, startMinute, 0);
-
-    if (currentStart < now) {
-      currentStart.setFullYear(year + 1);
-    }
-
-    const diff = currentStart - now;
-    if (diff > 0 && diff < minDiff) {
-      minDiff = diff;
-      nextStage = stage;
-      stageStart = currentStart;  // ← сохраняем дату начала ближайшего этапа
-    }
+    yearsToCheck.forEach(year => {
+      stageCandidates.push({
+        stage,
+        start: new Date(year, startMonth - 1, startDay, startHour, startMinute, 0)
+      });
+    });
   });
 
-  if (!nextStage || !stageStart) {
+  const activeRace = stageCandidates
+    .filter(item => now >= item.start && now < new Date(item.start.getTime() + raceDurationMs))
+    .sort((a, b) => b.start - a.start)[0];
+
+  const upcomingStage = stageCandidates
+    .filter(item => item.start > now)
+    .sort((a, b) => a.start - b.start)[0];
+
+  if (!activeRace && !upcomingStage) {
     document.getElementById("countdownTitle").textContent = "Сезон завершён";
     setZero();
     return;
   }
+
+  const stageForHeader = activeRace ? activeRace : upcomingStage;
+  const stageStart = stageForHeader.start;
+  const stageData = stageForHeader.stage;
+  const isRaceRunning = Boolean(activeRace);
 
   // Форматируем даты в ДД.ММ.ГГ
   const formatDate = (date) => {
@@ -423,21 +440,34 @@ function updateCountdown() {
     return `${dd}.${mm}.${yy}`;
   };
 
-  const startDateFormatted = formatDate(stageStart);
+  const endDateFormatted = formatDate(stageStart);
+  const startDate = new Date(stageStart);
+  startDate.setDate(startDate.getDate() - 2);
+  const startDateFormatted = formatDate(startDate);
 
-  // Дата конца — +1 день (или твоя логика, если есть точная дата окончания)
-  const endDate = new Date(stageStart);
-  endDate.setDate(endDate.getDate() + 1); // ← можно изменить на реальную дату конца этапа
-  const endDateFormatted = formatDate(endDate);
+  const firstStageName = calendar[0]?.name || "";
+  const interseasonUntil = new Date(stageStart.getFullYear(), 1, 28, 23, 59, 59);
+  const isInterseason = !isRaceRunning && stageData.name === firstStageName && now < interseasonUntil;
+  const titleText = isInterseason
+    ? "Межсезонье"
+    : `Следующий этап: ${stageData.name}`;
+  const statusText = isRaceRunning
+    ? "Идет заезд"
+    : `Старт — ${stageData.startTime} (мск)`;
 
   // Выводим в нужном формате
-  document.getElementById("countdownTitle").innerHTML = 
-    `Следующий этап: ${nextStage.name}<br>` +
+  document.getElementById("countdownTitle").innerHTML =
+    `${titleText}<br>` +
     `${startDateFormatted} — ${endDateFormatted}<br>` +
-    `<span>Старт — ${nextStage.startTime} (мск)</span>`;
+    `<span>${statusText}</span>`;
+
+  if (isRaceRunning) {
+    setZero();
+    return;
+  }
 
   // Остаток времени
-  let diff = minDiff / 1000;
+  let diff = (upcomingStage.start - now) / 1000;
   const days = Math.floor(diff / (3600 * 24));
   diff %= 3600 * 24;
   const hours = Math.floor(diff / 3600);

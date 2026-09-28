@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Прогнозы на этап</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="fonts.css">
+  <style>
+    .predict-block {
+      margin: 30px auto;
+      max-width: 1200px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+    }
+
+    .predict-title {
+      margin: 0 0 16px 0;
+      text-align: center;
+    }
+
+    .predict-table-wrap {
+      margin-top: 18px;
+      overflow-x: auto;
+      border-radius: 8px;
+    }
+
+    .predict-placeholder {
+      text-align: center;
+      color: #555;
+      padding: 18px 10px;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-btns-box">
+  <div class="top-btns">
+    <a href="index.html" class="home-btn f1-home-btn" title="На главную">
+      <img src="images/f1-logo.svg" alt="F1" class="f1-logo">
+    </a>
+
+    <a href="admin.html" id="adminBtn" class="top-link-btn admin-link">Admin</a>
+    <a href="table.html" class="top-link-btn table-link">Зачет</a>
+    <a href="predict.html" class="top-link-btn predict-link">Прогнозы</a>
+  </div>
+</div>
+
+<div class="predict-block">
+  <h1 class="predict-title">Прогнозы на этап</h1>
+
+  <div class="custom-select" id="stageCustomSelect">
+    <div class="selected">Выберите этап</div>
+    <div class="dropdown"></div>
+  </div>
+
+  <div class="predict-table-wrap">
+    <div id="predictTableContainer" class="predict-placeholder">Выберите этап для загрузки данных</div>
+  </div>
+</div>
+
+<script>
+  const SHEET_ID = "1gu_jBVaBrE4cc0mMeKzVfZ7mDtaLBmDqe8XijeHXAyU";
+  const API_KEY = "AIzaSyAa5FZg7ddmS9SB3XTRcU5A0J1Lac5q9yM";
+  const STAGES = [
+    "1. Австралия", "2. Китай", "3. Япония", "4. Бахрейн", "5. Саудовская Аравия", "6. Майами",
+    "7. Канада", "8. Монако", "9. Барселона", "10. Австрия", "11. Великобритания", "12. Бельгия",
+    "13. Венгрия", "14. Нидерланды", "15. Италия", "16. Испания", "17. Азербайджан", "18. Сингапур",
+    "19. США", "20. Мексика", "21. Бразилия", "22. Лас-Вегас", "23. Катар", "24. Абу-Даби"
+  ];
+
+  const STAGE_ICONS = {
+  "1. Австралия": "AUS(1).gif", "2. Китай": "CHN.gif", "3. Япония": "JPN.gif", "4. Бахрейн": "BAH.gif",
+  "5. Саудовская Аравия": "Flag_of_Saudi_Arabia-2.gif", "6. Майами": "USA(1).gif", "7. Канада": "CAN.gif", "8. Монако": "MON.gif",
+  "9. Барселона": "ESP.gif", "10. Австрия": "ATR.gif", "11. Великобритания": "GBR.gif", "12. Бельгия": "BEL.gif",
+  "13. Венгрия": "HUN(1).gif", "14. Нидерланды": "NDL.gif", "15. Италия": "ITA.gif", "16. Испания": "ESP.gif",
+  "17. Азербайджан": "AZB(2).gif", "18. Сингапур": "SGP.gif", "19. США": "USA(1).gif", "20. Мексика": "MEX(2).gif",
+  "21. Бразилия": "BRA.gif", "22. Лас-Вегас": "USA(1).gif", "23. Катар": "qatar.gif", "24. Абу-Даби": "UAE.gif"
+};
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function renderTable(values) {
+    const container = document.getElementById("predictTableContainer");
+    if (!values || !values.length) {
+      container.className = "predict-placeholder";
+      container.textContent = "Для выбранного этапа данные не найдены";
+      return;
+    }
+
+    let html = '<table class="results-table">';
+    values.forEach((row, rowIndex) => {
+      const tag = rowIndex === 0 ? "th" : "td";
+      html += "<tr>" + row.map(cell => `<${tag}>${escapeHtml(cell)}</${tag}>`).join("") + "</tr>";
+    });
+    html += "</table>";
+    container.className = "";
+    container.innerHTML = html;
+  }
+
+  async function loadStageTable(stageName) {
+    const container = document.getElementById("predictTableContainer");
+    container.className = "predict-placeholder";
+    container.textContent = "Загрузка...";
+
+    const safeSheetName = stageName.replace(/'/g, "''");
+    const range = `'${safeSheetName}'!M1:BA21`;
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(range)}?key=${API_KEY}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (!response.ok || data.error) {
+        container.textContent = "Ошибка загрузки данных";
+        return;
+      }
+
+      renderTable(data.values || []);
+    } catch (error) {
+      container.textContent = "Ошибка загрузки данных";
+    }
+  }
+
+  function initStageSelect() {
+    const stageSelect = document.getElementById("stageCustomSelect");
+    const selected = stageSelect.querySelector(".selected");
+    const dropdown = stageSelect.querySelector(".dropdown");
+
+    STAGES.forEach(stage => {
+      const iconFile = STAGE_ICONS[stage] || "name.gif";
+      const option = document.createElement("div");
+      option.className = "option";
+      option.dataset.value = stage;
+      option.innerHTML = `
+        <img src="images/country/${iconFile}" class="stage-icon" alt="${stage}">
+        ${stage}
+      `;
+      dropdown.appendChild(option);
+
+      option.addEventListener("click", () => {
+        selected.innerHTML = `
+          <img src="images/country/${iconFile}" class="stage-icon" alt="${stage}">
+          ${stage}
+        `;
+        dropdown.classList.remove("open");
+        stageSelect.classList.remove("open");
+        loadStageTable(stage);
+      });
+    });
+
+    selected.addEventListener("click", () => {
+      dropdown.classList.toggle("open");
+      stageSelect.classList.toggle("open");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!stageSelect.contains(e.target)) {
+        dropdown.classList.remove("open");
+        stageSelect.classList.remove("open");
+      }
+    });
+  }
+
+  function initAdminButton() {
+    const adminBtn = document.getElementById("adminBtn");
+    if (!adminBtn) return;
+
+    adminBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const pass = prompt("Введите пароль:");
+      if (pass === "4223") {
+        sessionStorage.setItem("adminAuth", "true");
+        window.location.href = "admin.html";
+      } else {
+        alert("Неверный пароль");
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initStageSelect();
+    initAdminButton();
+  });
+</script>
+
+</body>
+</html>
