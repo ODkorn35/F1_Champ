@@ -14,7 +14,7 @@ const calendar = [
   { name:"1. Австралия", start:"03-08", startTime:"8:00", showFrom:"02-20", showUntil:"03-08" },
   { name:"2. Китай", start:"03-15", startTime:"10:00", showFrom:"03-09", showUntil:"03-15" },
   { name:"3. Япония", start:"03-29", startTime:"07:50", showFrom:"03-16", showUntil:"03-29" },
-  { name:"4. Бахрейн (ЭТАП ОТМЕНЕН)", start:"04-12", startTime:"18:00", showFrom:"03-30", showUntil:"03-30" },
+  { name:"4. Бахрейн", start:"10-04", startTime:"10:00", showFrom:"09-28", showUntil:"10-04" },
   { name:"5. Саудовская Аравия (ЭТАП ОТМЕНЕН)", start:"04-19", startTime:"20:00", showFrom:"03-30", showUntil:"03-30" },
   { name:"6. Майами", start:"05-03", startTime:"23:00", showFrom:"04-01", showUntil:"05-03" },
   { name:"7. Канада", start:"05-24", startTime:"23:00", showFrom:"05-04", showUntil:"05-24" },
@@ -62,7 +62,7 @@ const driverIcons = {
 };
 
 const stageIcons = {
-  "1. Австралия": "AUS(1).gif", "2. Китай": "CHN.gif", "3. Япония": "JPN.gif", "4. Бахрейн (ЭТАП ОТМЕНЕН)": "BAH.gif",
+  "1. Австралия": "AUS(1).gif", "2. Китай": "CHN.gif", "3. Япония": "JPN.gif", "4. Бахрейн": "BAH.gif",
   "5. Саудовская Аравия (ЭТАП ОТМЕНЕН)": "Flag_of_Saudi_Arabia-2.gif", "6. Майами": "USA(1).gif", "7. Канада": "CAN.gif", "8. Монако": "MON.gif",
   "9. Барселона": "ESP.gif", "10. Австрия": "ATR.gif", "11. Великобритания": "GBR.gif", "12. Бельгия": "BEL.gif",
   "13. Венгрия": "HUN(1).gif", "14. Нидерланды": "NDL.gif", "15. Италия": "ITA.gif", "16. Испания": "ESP.gif",
